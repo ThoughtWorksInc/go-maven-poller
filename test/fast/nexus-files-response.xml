@@ -1,0 +1,76 @@
+<content>
+    <data>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.pom.md5</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.pom.md5</relativePath>
+            <text>book_inventory-1.0.0-18.pom.md5</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:35.0 UTC</lastModified>
+            <sizeOnDisk>32</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.war</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.war</relativePath>
+            <text>book_inventory-1.0.0-18.war</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:34.0 UTC</lastModified>
+            <sizeOnDisk>15465432</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18-rpm.rpm.sha1</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18-rpm.rpm.sha1</relativePath>
+            <text>book_inventory-1.0.0-18-rpm.rpm.sha1</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:37.0 UTC</lastModified>
+            <sizeOnDisk>40</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.pom.sha1</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.pom.sha1</relativePath>
+            <text>book_inventory-1.0.0-18.pom.sha1</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:35.0 UTC</lastModified>
+            <sizeOnDisk>40</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18-rpm.rpm</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18-rpm.rpm</relativePath>
+            <text>book_inventory-1.0.0-18-rpm.rpm</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:36.0 UTC</lastModified>
+            <sizeOnDisk>13953739</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18-rpm.rpm.md5</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18-rpm.rpm.md5</relativePath>
+            <text>book_inventory-1.0.0-18-rpm.rpm.md5</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:37.0 UTC</lastModified>
+            <sizeOnDisk>32</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.war.md5</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.war.md5</relativePath>
+            <text>book_inventory-1.0.0-18.war.md5</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:35.0 UTC</lastModified>
+            <sizeOnDisk>32</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.pom</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.pom</relativePath>
+            <text>book_inventory-1.0.0-18.pom</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:35.0 UTC</lastModified>
+            <sizeOnDisk>4848</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.war.sha1</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.war.sha1</relativePath>
+            <text>book_inventory-1.0.0-18.war.sha1</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:35.0 UTC</lastModified>
+            <sizeOnDisk>40</sizeOnDisk>
+        </content-item>
+    </data>
+</content>
