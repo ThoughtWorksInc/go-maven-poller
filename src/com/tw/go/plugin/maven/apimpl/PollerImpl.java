@@ -10,6 +10,7 @@ import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.tw.go.plugin.maven.LookupParams;
 import com.tw.go.plugin.maven.client.MavenRepositoryClient;
 import com.tw.go.plugin.maven.client.RepositoryConnector;
+import com.tw.go.plugin.maven.client.Version;
 import com.tw.go.plugin.maven.config.MavenPackageConfig;
 import com.tw.go.plugin.maven.config.MavenRepoConfig;
 import com.tw.go.plugin.util.RepoUrl;
@@ -83,6 +84,8 @@ public class PollerImpl implements PackageRepositoryPoller {
     }
 
     PackageRevision poll(LookupParams params) {
-        return new MavenRepositoryClient(params).getLatest().toPackageRevision();
+        Version latest = new MavenRepositoryClient(params).getLatest();
+        if(latest == null) return null;
+        return latest.toPackageRevision();
     }
 }

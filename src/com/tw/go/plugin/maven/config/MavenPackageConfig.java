@@ -1,11 +1,17 @@
 package com.tw.go.plugin.maven.config;
 
+import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration;
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfigurations;
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision;
+import com.thoughtworks.go.plugin.api.response.validation.Errors;
+import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.tw.go.plugin.maven.LookupParams;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 public class MavenPackageConfig {
+    private static final Logger LOGGER = Logger.getLoggerFor(MavenPackageConfig.class);
     public static final String GROUP_ID = "GROUP_ID";
     public static final String ARTIFACT_ID = "ARTIFACT_ID";
     public static final String ARTIFACT_EXTN = "ARTIFACT_EXTN";
@@ -74,5 +80,24 @@ public class MavenPackageConfig {
                 getPollVersionFrom(),
                 getPollVersionTo(),
                 previouslyKnownRevision, isIncludeSnapshots());
+    }
+    private void validateId(Errors errors, PackageConfiguration groupOrArtifactConfig, String what) {
+        if(groupOrArtifactConfig == null || groupOrArtifactConfig.getValue() == null || isBlank(groupOrArtifactConfig.getValue().trim())){
+            String message = what + " is not specified";
+            LOGGER.info(message);
+            errors.addError(new ValidationError(what, message));
+            return;
+        }
+        String groupOrArtifactId = groupOrArtifactConfig.getValue();
+        if ((groupOrArtifactId.contains("*") || groupOrArtifactId.contains("?"))) {
+            String message = String.format("%s [%s] is invalid", what, groupOrArtifactId);
+            LOGGER.info(message);
+            errors.addError(new ValidationError(what, message));
+        }
+    }
+
+    public void validate(Errors errors) {
+        validateId(errors, groupIdConfig, GROUP_ID);
+        validateId(errors, artifactIdConfig, ARTIFACT_ID);
     }
 }

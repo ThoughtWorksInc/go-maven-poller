@@ -92,40 +92,10 @@ public class PluginConfig implements PackageRepositoryConfiguration {
 
     public boolean isPackageConfigurationValid(PackageConfigurations packageConfig, PackageConfigurations repoConfig, Errors errors) {
         MavenPackageConfig mavenPackageConfig = new MavenPackageConfig(packageConfig);
-        if (mavenPackageConfig.isGroupIdMissing()) {
-            String message = "Package id not specified";
-            LOGGER.info(message);
-            errors.addError(new ValidationError(GROUP_ID, message));
-            return false;
-        }
-        if (mavenPackageConfig.isArtifactIdMissing()) {
-            String message = "Artifact id not specified";
-            LOGGER.info(message);
-            errors.addError(new ValidationError(ARTIFACT_ID, message));
-            return false;
-        }
-        validateId(errors, mavenPackageConfig.getGroupId(), "Group");
-        validateId(errors, mavenPackageConfig.getArtifactId(), "Artifact");
+        mavenPackageConfig.validate(errors);
         detectInvalidKeys(packageConfig, errors, MavenPackageConfig.getValidKeys());
         return !errors.hasErrors();
     }
 
-    private void validateId(Errors errors, String groupOrArtifactId, String what) {
-        if (groupOrArtifactId == null) {
-            String message = what + " id is null";
-            LOGGER.info(message);
-            errors.addError(new ValidationError(GROUP_ID, message));
-        }
-        if (groupOrArtifactId != null && isBlank(groupOrArtifactId.trim())) {
-            String message = what + " id is empty";
-            LOGGER.info(message);
-            errors.addError(new ValidationError(GROUP_ID, message));
-        }
-        if (groupOrArtifactId != null && (groupOrArtifactId.contains("*") || groupOrArtifactId.contains("?"))) {
-            String message = String.format("%s id [%s] is invalid", what, groupOrArtifactId);
-            LOGGER.info(message);
-            errors.addError(new ValidationError(GROUP_ID, message));
-        }
-    }
 
 }

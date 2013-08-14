@@ -30,4 +30,14 @@ public class NexusResponseHandler {
         }
         return versions;
     }
+
+    public List<String> getFiles(String artifactSelectionPattern) {
+        List<String> files = new ArrayList<String>();
+        Content c = new Content().unmarshal(responseBody);
+        for (ContentItem ci : c.getContentItems()) {
+            if (ci.getText().matches(artifactSelectionPattern))
+                files.add(ci.getText());
+        }
+        return files;
+    }
 }

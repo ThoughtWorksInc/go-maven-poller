@@ -19,4 +19,13 @@ public class MavenRepositoryClientTest {
         assertThat(result.getLocation(), is("http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-18/book_inventory-1.0.0-18.war"));
 
     }
+
+    @Test
+    public void shouldGetLatestIfAvailable(){
+        Version result = new MavenRepositoryClient(
+                new LookupParams(
+                        new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
+                        "com.thoughtworks.studios.go", "book_inventory", "war", null, null, null, false)).getLatest();
+
+    }
 }
