@@ -25,8 +25,11 @@ public class MavenRepositoryClient {
         String responseBody = repositoryConnector.makeAllVersionsRequest(lookupParams);
         LOGGER.debug(responseBody);
         List<Version> allVersions = getAllVersions(responseBody);
-        return getLatest(allVersions);
-
+        Version latest = getLatest(allVersions);
+        latest.setLocation(getLocation(latest));
+        latest.setArtifactId(lookupParams.getArtifactId());
+        latest.setGroupId(lookupParams.getGroupId());
+        return latest;
     }
 
     Version getLatest(List<Version> allVersions) {
@@ -37,14 +40,11 @@ public class MavenRepositoryClient {
                 return null;
             }
         }
-        latest.setLocation(getLocation(latest));
-        latest.setArtifactId(lookupParams.getArtifactId());
-        latest.setGroupId(lookupParams.getGroupId());
         return latest;
     }
 
     private boolean noNewerVersion(Version latest, Version lastKnownVersion) {
-        return lookupParams.isLastVersionKnown() && latest.compareTo(lastKnownVersion) <= 0;
+        return latest.notNewerThan(lastKnownVersion);
     }
 
     private List<Version> getAllVersions(String responseBody) {
@@ -63,6 +63,7 @@ public class MavenRepositoryClient {
     public String getLocation(Version latest) {
         String baseurl = repositoryConnector.getFilesUrl(lookupParams, latest.getV_Q());
         String responseBody = repositoryConnector.makeFilesRequest(lookupParams, latest.getV_Q());
+        LOGGER.debug(responseBody);
         NexusResponseHandler nexusReponseHandler = new NexusResponseHandler(responseBody);
         List<String> files;
         if (nexusReponseHandler.canHandle()) {

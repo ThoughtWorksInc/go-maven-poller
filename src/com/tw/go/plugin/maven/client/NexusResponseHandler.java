@@ -21,6 +21,8 @@ public class NexusResponseHandler {
     }
 
     public List<Version> getAllVersions() {
+        if(content == null && !canHandle())
+            throw new RuntimeException("Invalid response");
         List<Version> versions = new ArrayList<Version>();
         for (ContentItem ci : content.getContentItems()) {
             if (!ci.getText().matches(FILES_TO_IGNORE)) {
@@ -32,6 +34,8 @@ public class NexusResponseHandler {
     }
 
     public List<String> getFiles(String artifactSelectionPattern) {
+        if(content == null && !canHandle())
+            throw new RuntimeException("Invalid response");
         List<String> files = new ArrayList<String>();
         Content c = new Content().unmarshal(responseBody);
         for (ContentItem ci : c.getContentItems()) {

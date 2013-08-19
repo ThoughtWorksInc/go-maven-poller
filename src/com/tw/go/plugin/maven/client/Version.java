@@ -319,4 +319,8 @@ public class Version implements Serializable, Comparable<Version> {
             return getVersion() + "-" + getQualifier();
         return getVersion();
     }
+
+    public boolean notNewerThan(Version lastKnownVersion) {
+        return this.compareTo(lastKnownVersion) <= 0;
+    }
 }
