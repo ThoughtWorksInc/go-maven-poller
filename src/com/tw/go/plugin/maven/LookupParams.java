@@ -1,6 +1,7 @@
 package com.tw.go.plugin.maven;
 
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision;
+import com.tw.go.plugin.maven.client.Version;
 import com.tw.go.plugin.util.RepoUrl;
 
 
@@ -140,5 +141,9 @@ public class LookupParams {
 
     public String getArtifactSelectionPattern() {
         return String.format(".*\\.%s$", artifactExtn);
+    }
+
+    public Version getUpperBound() {
+        return new Version(pollVersionTo);
     }
 }

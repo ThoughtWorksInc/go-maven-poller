@@ -53,7 +53,7 @@ public class PollerImpl implements PackageRepositoryPoller {
     }
 
     @Override
-    public OperationResponse canConnectToRepository(PackageConfigurations packageConfigurations) {
+    public OperationResponse checkConnectionToRepository(PackageConfigurations packageConfigurations) {
         RepoUrl repoUrl = new MavenRepoConfig(packageConfigurations).getRepoUrl();
         OperationResponse response = new OperationResponse();
         try {

@@ -33,7 +33,9 @@ public class MavenRepositoryClient {
     }
 
     Version getLatest(List<Version> allVersions) {
-        Version latest = Collections.max(allVersions);
+        if(allVersions == null || allVersions.isEmpty()) return null;
+        Version latest = maxSubjectToUpperBound(allVersions);
+        if(latest == null) return null;
         if (lookupParams.isLastVersionKnown()) {
             Version lastKnownVersion = new Version(lookupParams.getLastKnownVersion());
             if (noNewerVersion(latest, lastKnownVersion)) {
@@ -41,6 +43,22 @@ public class MavenRepositoryClient {
             }
         }
         return latest;
+    }
+
+    private Version maxSubjectToUpperBound(List<Version> allVersions) {
+        Version absoluteMax = Collections.max(allVersions);
+        if(!lookupParams.upperBoundGiven()) return absoluteMax;
+        Collections.sort(allVersions);
+        for(int i = 0; i < allVersions.size(); i++){
+            if(allVersions.get(i).lessThan(lookupParams.getUpperBound()) &&
+                    i+1 <= allVersions.size()-1 &&
+                    allVersions.get(i+1).greaterOrEqual(lookupParams.getUpperBound()))
+                return allVersions.get(i);
+            if(allVersions.get(i).lessThan(lookupParams.getUpperBound()) &&
+                    i+1 == allVersions.size())
+                return allVersions.get(i);
+        }
+        return null;
     }
 
     private boolean noNewerVersion(Version latest, Version lastKnownVersion) {

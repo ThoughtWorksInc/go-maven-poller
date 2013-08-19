@@ -9,7 +9,9 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
@@ -40,5 +42,62 @@ public class MavenRepositoryClientTest {
         String responseBody = FileUtils.readFileToString(new File("test/fast/nexus-response.xml"));
         NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(responseBody);
         assertNull(client.getLatest(nexusResponseHandler.getAllVersions()));
+    }
+
+    @Test
+    public void shouldReturnNewerVersion() throws IOException {
+        PackageRevision previouslyKnownRevision = new PackageRevision("1.0.0-17", new Date(), "abc");
+        previouslyKnownRevision.addData(LookupParams.PACKAGE_VERSION,"1.0.0-17");
+        LookupParams lookupParams = new LookupParams(
+                new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
+                "com.thoughtworks.studios.go", "book_inventory", "war", null, null, previouslyKnownRevision, false);
+        MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
+        String responseBody = FileUtils.readFileToString(new File("test/fast/nexus-response.xml"));
+        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(responseBody);
+        Version result = client.getLatest(nexusResponseHandler.getAllVersions());
+        assertThat(result.getVersion(), is("1.0.0"));
+        assertThat(result.getQualifier(), is("18"));
+    }
+
+    @Test
+    public void shouldHonorUpperBoundAtQualifierLevel(){
+        PackageRevision previouslyKnownRevision = new PackageRevision("1.0.0-14", new Date(), "abc");
+        previouslyKnownRevision.addData(LookupParams.PACKAGE_VERSION,"1.0.0-14");
+        String upperBound = "1.0.0-17";
+        LookupParams lookupParams = new LookupParams(
+                new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
+                "com.thoughtworks.studios.go", "book_inventory", "war", null, upperBound, previouslyKnownRevision, false);
+        MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
+        List<Version> allVersions = new ArrayList<Version>();
+        allVersions.add(new Version("1.0.0-18"));
+        allVersions.add(new Version("1.0.0-16"));
+        assertThat(client.getLatest(allVersions).getV_Q(), is("1.0.0-16"));
+        allVersions.clear();
+        allVersions.add(new Version("1.0.0-18"));
+        assertNull(client.getLatest(allVersions));
+        allVersions.clear();
+        allVersions.add(new Version("1.0.0-17"));
+        assertNull(client.getLatest(allVersions));
+        allVersions.clear();
+        allVersions.add(new Version("1.0.0-16"));
+        assertThat(client.getLatest(allVersions).getV_Q(), is("1.0.0-16"));
+        allVersions.clear();
+        allVersions.add(new Version("1.0.0-16"));
+        allVersions.add(new Version("1.0.0-17"));
+        assertThat(client.getLatest(allVersions).getV_Q(), is("1.0.0-16"));
+        allVersions.clear();
+        allVersions.add(new Version("1.0.0-15"));
+        allVersions.add(new Version("1.0.0-16"));
+        allVersions.add(new Version("1.0.0-17"));
+        assertThat(client.getLatest(allVersions).getV_Q(), is("1.0.0-16"));
+        allVersions.clear();
+        allVersions.add(new Version("1.0.0-14"));
+        allVersions.add(new Version("1.0.0-16"));
+        allVersions.add(new Version("1.0.0-17"));
+        assertThat(client.getLatest(allVersions).getV_Q(), is("1.0.0-16"));
+        allVersions.clear();
+        allVersions.add(new Version("1.0.0-14"));
+        allVersions.add(new Version("1.0.0-17"));
+        assertNull(client.getLatest(allVersions));
     }
 }
