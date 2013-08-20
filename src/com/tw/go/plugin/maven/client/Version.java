@@ -94,7 +94,7 @@ public class Version implements Serializable, Comparable<Version> {
             try {
                 val = Integer.valueOf(digit);
             } catch (NumberFormatException ex) {
-                throw new IllegalArgumentException("Digit must be a number");
+                throw new IllegalArgumentException("Invalid version string "+ ver);
             }
             // add the null value to indicate that the digit could not be parsed
             digits.add(val);
@@ -273,7 +273,7 @@ public class Version implements Serializable, Comparable<Version> {
                 break;
             }
         }
-        if (result == 0) {
+        if (result == 0 && qualifier != null && ver.getQualifier() != null) {
             result = Strings.compareNaturalAscii(qualifier, ver.getQualifier());
         }
         return result;

@@ -7,6 +7,7 @@ import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision
 import com.thoughtworks.go.plugin.api.response.validation.Errors;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.tw.go.plugin.maven.LookupParams;
+import com.tw.go.plugin.maven.client.Version;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -18,6 +19,7 @@ public class MavenPackageConfig {
     public static final String POLL_VERSION_FROM = "POLL_VERSION_FROM";
     public static final String POLL_VERSION_TO = "POLL_VERSION_TO";
     public static final String INCLUDE_SNAPSHOTS = "INCLUDE_SNAPSHOTS";
+    public static final String INVALID_BOUNDS_MESSAGE = "Lower Bound cannot be >= Upper Bound";
     private final PackageConfigurations packageConfigs;
     private final PackageConfiguration groupIdConfig;
     private final PackageConfiguration artifactIdConfig;
@@ -99,5 +101,29 @@ public class MavenPackageConfig {
     public void validate(Errors errors) {
         validateId(errors, groupIdConfig, GROUP_ID);
         validateId(errors, artifactIdConfig, ARTIFACT_ID);
+        boolean lowerBoundSpecified = false;
+        PackageConfiguration lowerBoundConfig = packageConfigs.get(POLL_VERSION_FROM);
+        if(lowerBoundConfig != null && lowerBoundConfig.getValue() != null){
+            lowerBoundSpecified = true;
+            try{
+                new Version(lowerBoundConfig.getValue());
+            }catch (IllegalArgumentException ex){
+                errors.addError(new ValidationError(POLL_VERSION_FROM, ex.getMessage()));
+            }
+        }
+        boolean upperBoundSpecified = false;
+        PackageConfiguration upperBoundConfig = packageConfigs.get(POLL_VERSION_TO);
+        if(upperBoundConfig != null && upperBoundConfig.getValue() != null){
+            upperBoundSpecified = true;
+            try{
+                new Version(upperBoundConfig.getValue());
+            }catch (IllegalArgumentException ex){
+                errors.addError(new ValidationError(POLL_VERSION_TO, ex.getMessage()));
+            }
+        }
+        if(upperBoundSpecified && lowerBoundSpecified &&
+                new Version(lowerBoundConfig.getValue()).greaterOrEqual(new Version(upperBoundConfig.getValue()))){
+            errors.addError(new ValidationError(POLL_VERSION_FROM, INVALID_BOUNDS_MESSAGE));
+        }
     }
 }
