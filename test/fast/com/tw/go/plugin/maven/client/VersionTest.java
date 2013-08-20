@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -257,5 +258,17 @@ public class VersionTest {
         assertEquals("Bugfix version does not match", bugfix, v.getBugfix());
         assertEquals("Hotfix version does not match", hotfix, v.getHotfix());
         assertEquals("Qualifier does not match", qualifier, v.getQualifier());
+    }
+
+    @Test
+    public void testComparison(){
+        assertThat(new Version("1.0").compareTo(new Version("2.0")), is(-1));
+        assertThat(new Version("1.0").compareTo(new Version("0.9")), is(1));
+        assertThat(new Version("0.9-abc").compareTo(new Version("0.9-abd")), is(-1));
+        assertThat(new Version("0.9").compareTo(new Version("0.9-alpha")), is(1));
+        assertThat(new Version("0.9-beta").compareTo(new Version("0.9")), is(-1));
+        assertThat(new Version("0.9-beta").compareTo(new Version("0.9.0-beta")), is(0));
+        assertThat(new Version("0.9-beta2").compareTo(new Version("0.9.0-beta3")), is(-1));
+        assertThat(new Version("0.9-beta9").compareTo(new Version("0.9.0-beta10")), is(-1));
     }
 }

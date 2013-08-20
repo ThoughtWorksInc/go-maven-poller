@@ -275,6 +275,10 @@ public class Version implements Serializable, Comparable<Version> {
         }
         if (result == 0 && qualifier != null && ver.getQualifier() != null) {
             result = Strings.compareNaturalAscii(qualifier, ver.getQualifier());
+        }else if(result == 0 && qualifier == null){
+            return 1;
+        }else if(result == 0 && ver.getQualifier() == null){
+            return -1;
         }
         return result;
     }
