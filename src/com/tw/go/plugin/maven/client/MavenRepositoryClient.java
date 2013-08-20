@@ -42,7 +42,11 @@ public class MavenRepositoryClient {
                 return null;
             }
         }
-        return latest;
+        if(!lookupParams.lowerBoundGiven() || latest.greaterOrEqual(lookupParams.lowerBound())){
+            return latest;
+        }else{
+            return null;
+        }
     }
 
     private Version maxSubjectToUpperBound(List<Version> allVersions) {
@@ -93,6 +97,4 @@ public class MavenRepositoryClient {
         }
         return baseurl + files.get(0);
     }
-
-
 }

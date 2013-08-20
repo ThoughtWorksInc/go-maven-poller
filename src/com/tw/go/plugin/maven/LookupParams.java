@@ -146,4 +146,8 @@ public class LookupParams {
     public Version getUpperBound() {
         return new Version(pollVersionTo);
     }
+
+    public Version lowerBound() {
+        return new Version(pollVersionFrom);
+    }
 }

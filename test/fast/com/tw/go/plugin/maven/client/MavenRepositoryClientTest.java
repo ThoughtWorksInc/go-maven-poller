@@ -60,6 +60,64 @@ public class MavenRepositoryClientTest {
     }
 
     @Test
+    public void shouldHonorUpperBound(){
+        PackageRevision previouslyKnownRevision = new PackageRevision("1.0.14", new Date(), "abc");
+        previouslyKnownRevision.addData(LookupParams.PACKAGE_VERSION,"1.0.14");
+        String upperBound = "1.0.17";
+        LookupParams lookupParams = new LookupParams(
+                new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
+                "com.thoughtworks.studios.go", "book_inventory", "war", null, upperBound, previouslyKnownRevision, false);
+        MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
+        List<Version> allVersions = new ArrayList<Version>();
+        allVersions.add(new Version("1.0.18"));
+        allVersions.add(new Version("1.0.16"));
+        assertThat(client.getLatest(allVersions).getV_Q(), is("1.0.16"));
+        allVersions.clear();
+        allVersions.add(new Version("1.0.18"));
+        assertNull(client.getLatest(allVersions));
+    }
+
+    @Test
+    public void shouldHonorLowerBoundWithKnownPreviousVersion(){
+        PackageRevision previouslyKnownRevision = new PackageRevision("1.0.14", new Date(), "abc");
+        previouslyKnownRevision.addData(LookupParams.PACKAGE_VERSION,"1.0.14");
+        String lowerBound = "0.1";
+        LookupParams lookupParams = new LookupParams(
+                new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
+                "com.thoughtworks.studios.go", "book_inventory", "war",lowerBound, null, previouslyKnownRevision, false);
+        MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
+        List<Version> allVersions = new ArrayList<Version>();
+        allVersions.add(new Version("1.0.18"));
+        allVersions.add(new Version("1.0.16"));
+        assertThat(client.getLatest(allVersions).getV_Q(), is("1.0.18"));
+        allVersions.clear();
+        allVersions.add(new Version("1.0.12"));
+        assertNull(client.getLatest(allVersions));
+        allVersions.clear();
+        allVersions.add(new Version("0.0.12"));
+        assertNull(client.getLatest(allVersions));
+    }
+
+    @Test
+    public void shouldHonorLowerBound(){
+        String lowerBound = "0.1";
+        LookupParams lookupParams = new LookupParams(
+                new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
+                "com.thoughtworks.studios.go", "book_inventory", "war",lowerBound, null, null, false);
+        MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
+        List<Version> allVersions = new ArrayList<Version>();
+        allVersions.add(new Version("1.0.18"));
+        allVersions.add(new Version("1.0.16"));
+        assertThat(client.getLatest(allVersions).getV_Q(), is("1.0.18"));
+        allVersions.clear();
+        allVersions.add(new Version("1.0.12"));
+        assertThat(client.getLatest(allVersions).getV_Q(), is("1.0.12"));
+        allVersions.clear();
+        allVersions.add(new Version("0.0.12"));
+        assertNull(client.getLatest(allVersions));
+    }
+
+    @Test
     public void shouldHonorUpperBoundAtQualifierLevel(){
         PackageRevision previouslyKnownRevision = new PackageRevision("1.0.0-14", new Date(), "abc");
         previouslyKnownRevision.addData(LookupParams.PACKAGE_VERSION,"1.0.0-14");

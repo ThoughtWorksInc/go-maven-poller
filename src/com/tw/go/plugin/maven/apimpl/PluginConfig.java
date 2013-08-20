@@ -38,10 +38,10 @@ public class PluginConfig implements PackageRepositoryConfiguration {
             new PackageConfiguration(ARTIFACT_EXTN).with(DISPLAY_NAME, "Artifact Extension (jar,war,ear...)").with(DISPLAY_ORDER, 2).with(PART_OF_IDENTITY, true);
 
     public static final PackageConfiguration PKG_CONFIG_POLL_VERSION_FROM =
-            new PackageConfiguration(POLL_VERSION_FROM).with(REQUIRED, false).with(DISPLAY_NAME, "Version to poll >=").with(DISPLAY_ORDER, 3).with(PART_OF_IDENTITY, false);
+            new PackageConfiguration(POLL_VERSION_FROM).with(REQUIRED, false).with(DISPLAY_NAME, "Version to poll >=").with(DISPLAY_ORDER, 3).with(PART_OF_IDENTITY, true);
 
     public static final PackageConfiguration PKG_CONFIG_POLL_VERSION_TO =
-            new PackageConfiguration(POLL_VERSION_TO).with(REQUIRED, false).with(DISPLAY_NAME, "Version to poll <").with(DISPLAY_ORDER, 4).with(PART_OF_IDENTITY, false);
+            new PackageConfiguration(POLL_VERSION_TO).with(REQUIRED, false).with(DISPLAY_NAME, "Version to poll <").with(DISPLAY_ORDER, 4).with(PART_OF_IDENTITY, true);
 
     public static final PackageConfiguration PKG_CONFIG_INCLUDE_SNAPSHOT =
             new PackageConfiguration(INCLUDE_SNAPSHOTS).with(REQUIRED, false).with(DISPLAY_NAME, "Include Snapshots? (yes/no, defaults to yes)").with(DISPLAY_ORDER, 5);

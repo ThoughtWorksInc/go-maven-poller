@@ -1,0 +1,164 @@
+<content>
+    <data>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.4/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.4/</relativePath>
+            <text>1.0.4</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-17 11:04:31.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.1/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.1/</relativePath>
+            <text>1.0.1</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-16 11:31:21.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.6/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.6/</relativePath>
+            <text>1.0.6</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-17 14:19:29.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.1/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.11/</relativePath>
+            <text>1.0.11</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-19 03:39:07.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.13/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.13/</relativePath>
+            <text>1.0.13</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-19 12:44:20.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/maven-metadata.xml.sha1</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/maven-metadata.xml.sha1</relativePath>
+            <text>maven-metadata.xml.sha1</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:35.0 UTC</lastModified>
+            <sizeOnDisk>40</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/maven-metadata.xml</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/maven-metadata.xml</relativePath>
+            <text>maven-metadata.xml</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:35.0 UTC</lastModified>
+            <sizeOnDisk>892</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.17/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.17/</relativePath>
+            <text>1.0.17</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-25 07:29:21.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.5/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.5/</relativePath>
+            <text>1.0.5</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-17 11:30:31.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.18/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.18/</relativePath>
+            <text>1.0.18</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-25 10:07:37.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.2/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.2/</relativePath>
+            <text>1.0.2</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-16 11:55:25.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.14/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.14/</relativePath>
+            <text>1.0.14</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-20 01:00:27.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.16/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.16/</relativePath>
+            <text>1.0.16</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-21 03:56:22.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.10/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.10/</relativePath>
+            <text>1.0.10</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-18 19:44:44.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.3/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.3/</relativePath>
+            <text>1.0.3</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-17 09:40:32.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.7/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.7/</relativePath>
+            <text>1.0.7</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-18 05:46:51.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.12/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.12/</relativePath>
+            <text>1.0.12</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-19 06:23:13.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.15/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.15/</relativePath>
+            <text>1.0.15</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-20 06:02:58.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.9/</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.9/</relativePath>
+            <text>1.0.9</text>
+            <leaf>false</leaf>
+            <lastModified>2013-03-18 12:55:15.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/maven-metadata.xml.md5</resourceURI>
+            <relativePath>/repositories/releases/com/thoughtworks/studios/go/book_inventory/maven-metadata.xml.md5</relativePath>
+            <text>maven-metadata.xml.md5</text>
+            <leaf>true</leaf>
+            <lastModified>2013-03-25 10:07:36.0 UTC</lastModified>
+            <sizeOnDisk>32</sizeOnDisk>
+        </content-item>
+    </data>
+</content>
