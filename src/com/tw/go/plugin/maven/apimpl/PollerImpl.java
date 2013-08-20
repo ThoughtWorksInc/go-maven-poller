@@ -53,19 +53,28 @@ public class PollerImpl implements PackageRepositoryPoller {
     }
 
     @Override
-    public OperationResponse checkConnectionToRepository(PackageConfigurations packageConfigurations) {
-        RepoUrl repoUrl = new MavenRepoConfig(packageConfigurations).getRepoUrl();
+    public OperationResponse checkConnectionToRepository(PackageConfigurations repoConfigs) {
+        RepoUrl repoUrl = new MavenRepoConfig(repoConfigs).getRepoUrl();
         OperationResponse response = new OperationResponse();
         try {
             boolean result = new RepositoryConnector().testConnection(repoUrl.forDisplay(), repoUrl.getCredentials().getUser(), repoUrl.getCredentials().getPassword());
-            if (result) {
-                response.withSuccessMessages("Connection ok");
-            } else {
-                response.withErrorMessages("Connection failed");
+            if (!result) {
+                response.withErrorMessages("Did not get HTTP Status 200 response");
             }
         } catch (Exception e) {
             response.withErrorMessages(e.getMessage());
         }
+        return response;
+    }
+
+    @Override
+    public OperationResponse checkConnectionToPackage(PackageConfigurations packageConfigs, PackageConfigurations repoConfigs) {
+        OperationResponse repoCheckResponse = checkConnectionToRepository(repoConfigs);
+        if(!repoCheckResponse.isSuccessful())
+            return repoCheckResponse;
+        PackageRevision packageRevision = getLatestRevision(packageConfigs, repoConfigs);
+        OperationResponse response = new OperationResponse();
+        response.withSuccessMessages("Found "+packageRevision.getRevision());
         return response;
     }
 
