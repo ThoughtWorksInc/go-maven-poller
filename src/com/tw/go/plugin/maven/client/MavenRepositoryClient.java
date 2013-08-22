@@ -26,25 +26,34 @@ public class MavenRepositoryClient {
         LOGGER.debug(responseBody);
         List<Version> allVersions = getAllVersions(responseBody);
         Version latest = getLatest(allVersions);
-        latest.setLocation(getLocation(latest));
-        latest.setArtifactId(lookupParams.getArtifactId());
-        latest.setGroupId(lookupParams.getGroupId());
+        if(latest != null){
+            LOGGER.info("Latest is "+latest.getRevisionLabel());
+            latest.setLocation(getLocation(latest));
+            latest.setArtifactId(lookupParams.getArtifactId());
+            latest.setGroupId(lookupParams.getGroupId());
+        }
         return latest;
     }
 
     Version getLatest(List<Version> allVersions) {
         if(allVersions == null || allVersions.isEmpty()) return null;
         Version latest = maxSubjectToUpperBound(allVersions);
-        if(latest == null) return null;
+        if(latest == null) {
+            LOGGER.info("maxSubjectToUpperBound is null");
+            return null;
+        }
         if (lookupParams.isLastVersionKnown()) {
+            LOGGER.info("lastKnownVersion is "+ lookupParams.getLastKnownVersion());
             Version lastKnownVersion = new Version(lookupParams.getLastKnownVersion());
             if (noNewerVersion(latest, lastKnownVersion)) {
+                LOGGER.info("no newer version");
                 return null;
             }
         }
         if(!lookupParams.lowerBoundGiven() || latest.greaterOrEqual(lookupParams.lowerBound())){
             return latest;
         }else{
+            LOGGER.info("latestSubjectToLowerBound is null");
             return null;
         }
     }

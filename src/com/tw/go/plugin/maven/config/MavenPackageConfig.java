@@ -8,6 +8,7 @@ import com.thoughtworks.go.plugin.api.response.validation.Errors;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.tw.go.plugin.maven.LookupParams;
 import com.tw.go.plugin.maven.client.Version;
+import com.tw.go.plugin.util.StringUtil;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -103,7 +104,7 @@ public class MavenPackageConfig {
         validateId(errors, artifactIdConfig, ARTIFACT_ID);
         boolean lowerBoundSpecified = false;
         PackageConfiguration lowerBoundConfig = packageConfigs.get(POLL_VERSION_FROM);
-        if(lowerBoundConfig != null && lowerBoundConfig.getValue() != null){
+        if(lowerBoundConfig != null && lowerBoundConfig.getValue() != null && StringUtil.isNotBlank(lowerBoundConfig.getValue())){
             lowerBoundSpecified = true;
             try{
                 new Version(lowerBoundConfig.getValue());
@@ -113,7 +114,7 @@ public class MavenPackageConfig {
         }
         boolean upperBoundSpecified = false;
         PackageConfiguration upperBoundConfig = packageConfigs.get(POLL_VERSION_TO);
-        if(upperBoundConfig != null && upperBoundConfig.getValue() != null){
+        if(upperBoundConfig != null && upperBoundConfig.getValue() != null && StringUtil.isNotBlank(upperBoundConfig.getValue())){
             upperBoundSpecified = true;
             try{
                 new Version(upperBoundConfig.getValue());

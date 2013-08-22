@@ -113,7 +113,6 @@ public class RepositoryConnector {
 
     HttpClient createHttpClient(String username, String password) {
         DefaultHttpClient client = HttpRepoURL.getHttpClient();
-        client.setRedirectStrategy(new DefaultRedirectStrategy());
         if (username != null) {
             Credentials creds = new UsernamePasswordCredentials(username, password);
             CredentialsProvider credsProvider = new BasicCredentialsProvider();

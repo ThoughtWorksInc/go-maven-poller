@@ -57,7 +57,7 @@ public class PollerImpl implements PackageRepositoryPoller {
         RepoUrl repoUrl = new MavenRepoConfig(repoConfigs).getRepoUrl();
         OperationResponse response = new OperationResponse();
         try {
-            boolean result = new RepositoryConnector().testConnection(repoUrl.forDisplay(), repoUrl.getCredentials().getUser(), repoUrl.getCredentials().getPassword());
+            boolean result = new RepositoryConnector().testConnection(repoUrl.getUrlStr(), repoUrl.getCredentials().getUser(), repoUrl.getCredentials().getPassword());
             if (!result) {
                 response.withErrorMessages("Did not get HTTP Status 200 response");
             }

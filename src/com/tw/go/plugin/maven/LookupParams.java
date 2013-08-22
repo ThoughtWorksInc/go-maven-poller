@@ -43,7 +43,7 @@ public class LookupParams {
     }
 
     public String getRepoUrlStr() {
-        return repoUrl.forDisplay();
+        return repoUrl.getUrlStr();
     }
 
     public RepoUrl getRepoUrl() {
@@ -55,8 +55,8 @@ public class LookupParams {
     }
 
     public String getRepoUrlStrWithTrailingSlash() {
-        if (repoUrl.forDisplay().endsWith("/")) return repoUrl.forDisplay();
-        return repoUrl.forDisplay() + "/";
+        if (repoUrl.getUrlStr().endsWith("/")) return repoUrl.getUrlStr();
+        return repoUrl.getUrlStr() + "/";
     }
 
     public boolean isLastVersionKnown() {
