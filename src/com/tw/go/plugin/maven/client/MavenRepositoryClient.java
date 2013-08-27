@@ -31,6 +31,8 @@ public class MavenRepositoryClient {
             latest.setLocation(getLocation(latest));
             latest.setArtifactId(lookupParams.getArtifactId());
             latest.setGroupId(lookupParams.getGroupId());
+        }else{
+            LOGGER.warn("getLatest returning null");
         }
         return latest;
     }

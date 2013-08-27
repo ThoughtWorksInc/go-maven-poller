@@ -92,9 +92,13 @@ public class RepositoryConnector {
             HttpResponse response = client.execute(method);
             responseBody = EntityUtils.toString(response.getEntity());
         } catch (IOException ioe) {
-            LOGGER.error(String.format("Unable to connect to %s\n%s", url, ioe.getMessage()));
+            String message = String.format("Unable to connect to %s\n%s", url, ioe.getMessage());
+            LOGGER.error(message);
+            throw new RuntimeException(message);
         } catch (Exception e) {
-            LOGGER.error(String.format("Unknown exception while connecting to %s\n%s", url, e));
+            String message = String.format("Unknown exception while connecting to %s\n%s", url, e);
+            LOGGER.error(message);
+            throw new RuntimeException(message);
         } finally {
             if (method != null) {
                 method.releaseConnection();
