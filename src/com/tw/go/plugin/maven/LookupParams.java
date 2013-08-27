@@ -17,9 +17,8 @@ public class LookupParams {
     private String pollVersionFrom = ANY;
     private String pollVersionTo = ANY;
     private PackageRevision lastKnownVersion = null;
-    private boolean includeSnapshots = true;
 
-    public LookupParams(RepoUrl repoUrl, String groupId, String artifactId, String artifactExtn, String pollVersionFrom, String pollVersionTo, PackageRevision previouslyKnownRevision, boolean includeSnapshotsVersions) {
+    public LookupParams(RepoUrl repoUrl, String groupId, String artifactId, String artifactExtn, String pollVersionFrom, String pollVersionTo, PackageRevision previouslyKnownRevision) {
         this.repoUrl = repoUrl;
         this.groupId = groupId;
         this.artifactId = artifactId;
@@ -27,7 +26,6 @@ public class LookupParams {
         if (pollVersionFrom != null && !pollVersionFrom.trim().isEmpty()) this.pollVersionFrom = pollVersionFrom;
         if (pollVersionTo != null && !pollVersionTo.trim().isEmpty()) this.pollVersionTo = pollVersionTo;
         this.lastKnownVersion = previouslyKnownRevision;
-        this.includeSnapshots = includeSnapshotsVersions;
     }
 
     public String getRepoId() {
@@ -77,13 +75,13 @@ public class LookupParams {
     }
 
     public String getPackageAndVersion() {
-        if(eitherBoundGiven())
-        return String.format("%s, %s to %s", groupId, displayVersion(pollVersionFrom), displayVersion(pollVersionTo));
+        if (eitherBoundGiven())
+            return String.format("%s, %s to %s", groupId, displayVersion(pollVersionFrom), displayVersion(pollVersionTo));
         return groupId;
     }
 
     private String displayVersion(String version) {
-        if(ANY.equals(version)) return ANY;
+        if (ANY.equals(version)) return ANY;
         return "V" + version;
     }
 
@@ -100,7 +98,6 @@ public class LookupParams {
 
         LookupParams that = (LookupParams) o;
 
-        if (includeSnapshots != that.includeSnapshots) return false;
         if (lastKnownVersion != null ? !lastKnownVersion.equals(that.lastKnownVersion) : that.lastKnownVersion != null)
             return false;
         if (!groupId.equals(that.groupId)) return false;
@@ -120,7 +117,6 @@ public class LookupParams {
         result = 31 * result + (pollVersionFrom != null ? pollVersionFrom.hashCode() : 0);
         result = 31 * result + (pollVersionTo != null ? pollVersionTo.hashCode() : 0);
         result = 31 * result + (lastKnownVersion != null ? lastKnownVersion.hashCode() : 0);
-        result = 31 * result + (includeSnapshots ? 1 : 0);
         return result;
     }
 
@@ -128,13 +124,10 @@ public class LookupParams {
         return upperBoundGiven() || lowerBoundGiven();
     }
 
-    public boolean shoudIncludeSnapshots() {
-        return includeSnapshots;
-    }
-
     public String getPassword() {
         return repoUrl.getCredentials().getPassword();
     }
+
     public String getUsername() {
         return repoUrl.getCredentials().getUser();
     }

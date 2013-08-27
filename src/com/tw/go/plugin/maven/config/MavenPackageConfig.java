@@ -19,7 +19,6 @@ public class MavenPackageConfig {
     public static final String ARTIFACT_EXTN = "ARTIFACT_EXTN";
     public static final String POLL_VERSION_FROM = "POLL_VERSION_FROM";
     public static final String POLL_VERSION_TO = "POLL_VERSION_TO";
-    public static final String INCLUDE_SNAPSHOTS = "INCLUDE_SNAPSHOTS";
     public static final String INVALID_BOUNDS_MESSAGE = "Lower Bound cannot be >= Upper Bound";
     private final PackageConfigurations packageConfigs;
     private final PackageConfiguration groupIdConfig;
@@ -38,6 +37,7 @@ public class MavenPackageConfig {
     public String getGroupId() {
         return groupIdConfig.getValue();
     }
+
     public boolean isArtifactIdMissing() {
         return artifactIdConfig == null;
     }
@@ -47,7 +47,7 @@ public class MavenPackageConfig {
     }
 
     public static String[] getValidKeys() {
-        return new String[]{GROUP_ID, ARTIFACT_ID,ARTIFACT_EXTN, POLL_VERSION_FROM, POLL_VERSION_TO, INCLUDE_SNAPSHOTS};
+        return new String[]{GROUP_ID, ARTIFACT_ID, ARTIFACT_EXTN, POLL_VERSION_FROM, POLL_VERSION_TO};
     }
 
     public String getPollVersionFrom() {
@@ -58,13 +58,6 @@ public class MavenPackageConfig {
     public String getPollVersionTo() {
         PackageConfiguration to = packageConfigs.get(POLL_VERSION_TO);
         return (to == null) ? null : to.getValue();
-    }
-
-    public boolean isIncludeSnapshots() {
-        PackageConfiguration config = packageConfigs.get(INCLUDE_SNAPSHOTS);
-        if(config == null) return true;
-        if(config.getValue() == null) return true;
-        return !config.getValue().equalsIgnoreCase("no");
     }
 
     public boolean hasBounds() {
@@ -82,10 +75,11 @@ public class MavenPackageConfig {
                 getGroupId(), getArtifactId(), getArtifactExtn(),
                 getPollVersionFrom(),
                 getPollVersionTo(),
-                previouslyKnownRevision, isIncludeSnapshots());
+                previouslyKnownRevision);
     }
+
     private void validateId(Errors errors, PackageConfiguration groupOrArtifactConfig, String what) {
-        if(groupOrArtifactConfig == null || groupOrArtifactConfig.getValue() == null || isBlank(groupOrArtifactConfig.getValue().trim())){
+        if (groupOrArtifactConfig == null || groupOrArtifactConfig.getValue() == null || isBlank(groupOrArtifactConfig.getValue().trim())) {
             String message = what + " is not specified";
             LOGGER.info(message);
             errors.addError(new ValidationError(what, message));
@@ -104,26 +98,26 @@ public class MavenPackageConfig {
         validateId(errors, artifactIdConfig, ARTIFACT_ID);
         boolean lowerBoundSpecified = false;
         PackageConfiguration lowerBoundConfig = packageConfigs.get(POLL_VERSION_FROM);
-        if(lowerBoundConfig != null && lowerBoundConfig.getValue() != null && StringUtil.isNotBlank(lowerBoundConfig.getValue())){
+        if (lowerBoundConfig != null && lowerBoundConfig.getValue() != null && StringUtil.isNotBlank(lowerBoundConfig.getValue())) {
             lowerBoundSpecified = true;
-            try{
+            try {
                 new Version(lowerBoundConfig.getValue());
-            }catch (IllegalArgumentException ex){
+            } catch (IllegalArgumentException ex) {
                 errors.addError(new ValidationError(POLL_VERSION_FROM, ex.getMessage()));
             }
         }
         boolean upperBoundSpecified = false;
         PackageConfiguration upperBoundConfig = packageConfigs.get(POLL_VERSION_TO);
-        if(upperBoundConfig != null && upperBoundConfig.getValue() != null && StringUtil.isNotBlank(upperBoundConfig.getValue())){
+        if (upperBoundConfig != null && upperBoundConfig.getValue() != null && StringUtil.isNotBlank(upperBoundConfig.getValue())) {
             upperBoundSpecified = true;
-            try{
+            try {
                 new Version(upperBoundConfig.getValue());
-            }catch (IllegalArgumentException ex){
+            } catch (IllegalArgumentException ex) {
                 errors.addError(new ValidationError(POLL_VERSION_TO, ex.getMessage()));
             }
         }
-        if(upperBoundSpecified && lowerBoundSpecified &&
-                new Version(lowerBoundConfig.getValue()).greaterOrEqual(new Version(upperBoundConfig.getValue()))){
+        if (upperBoundSpecified && lowerBoundSpecified &&
+                new Version(lowerBoundConfig.getValue()).greaterOrEqual(new Version(upperBoundConfig.getValue()))) {
             errors.addError(new ValidationError(POLL_VERSION_FROM, INVALID_BOUNDS_MESSAGE));
         }
     }

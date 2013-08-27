@@ -14,7 +14,6 @@ import java.util.Arrays;
 
 import static com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.*;
 import static com.tw.go.plugin.maven.config.MavenPackageConfig.*;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class PluginConfig implements PackageRepositoryConfiguration {
 
@@ -43,8 +42,6 @@ public class PluginConfig implements PackageRepositoryConfiguration {
     public static final PackageConfiguration PKG_CONFIG_POLL_VERSION_TO =
             new PackageConfiguration(POLL_VERSION_TO).with(REQUIRED, false).with(DISPLAY_NAME, "Version to poll <").with(DISPLAY_ORDER, 4).with(PART_OF_IDENTITY, true);
 
-    public static final PackageConfiguration PKG_CONFIG_INCLUDE_SNAPSHOT =
-            new PackageConfiguration(INCLUDE_SNAPSHOTS).with(REQUIRED, false).with(DISPLAY_NAME, "Include Snapshots? (yes/no, defaults to yes)").with(DISPLAY_ORDER, 5);
 
     public PackageConfigurations getRepositoryConfiguration() {
         PackageConfigurations configurations = new PackageConfigurations();
@@ -61,7 +58,6 @@ public class PluginConfig implements PackageRepositoryConfiguration {
         configurations.addConfiguration(PKG_CONFIG_ARTIFACT_EXTN);
         configurations.addConfiguration(PKG_CONFIG_POLL_VERSION_FROM);
         configurations.addConfiguration(PKG_CONFIG_POLL_VERSION_TO);
-        configurations.addConfiguration(PKG_CONFIG_INCLUDE_SNAPSHOT);
         return configurations;
     }
 
@@ -78,15 +74,17 @@ public class PluginConfig implements PackageRepositoryConfiguration {
         return !errors.hasErrors();
     }
 
-    private void detectInvalidKeys(PackageConfigurations configs, Errors errors, String[] validKeys){
-        for(PackageConfiguration config : configs.list()){
+    private void detectInvalidKeys(PackageConfigurations configs, Errors errors, String[] validKeys) {
+        for (PackageConfiguration config : configs.list()) {
             boolean valid = false;
-            for(String validKey : validKeys){
-                if(validKey.equals(config.getKey())) {
-                    valid = true; break;
+            for (String validKey : validKeys) {
+                if (validKey.equals(config.getKey())) {
+                    valid = true;
+                    break;
                 }
             }
-            if(!valid) errors.addError(new ValidationError(String.format("Unsupported key: %s. Valid keys: %s", config.getKey(), Arrays.toString(validKeys))));
+            if (!valid)
+                errors.addError(new ValidationError(String.format("Unsupported key: %s. Valid keys: %s", config.getKey(), Arrays.toString(validKeys))));
         }
     }
 

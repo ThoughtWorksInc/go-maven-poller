@@ -16,7 +16,7 @@ public class NexusResponseHandlerTest {
     public void shouldGetLatestVersionLocation() throws IOException {
         LookupParams lookupParams = new LookupParams(
                 new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
-                "com.thoughtworks.studios.go", "book_inventory", "war", null, null, null, false);
+                "com.thoughtworks.studios.go", "book_inventory", "war", null, null, null);
         String responseBody = FileUtils.readFileToString(new File("test/fast/nexus-files-response.xml"));
         NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(responseBody);
         assertThat(nexusResponseHandler.getFiles(lookupParams.getArtifactSelectionPattern()).get(0), is("book_inventory-1.0.0-18.war"));

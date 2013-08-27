@@ -4,7 +4,6 @@ import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision
 import com.tw.go.plugin.maven.LookupParams;
 import com.tw.go.plugin.util.HttpRepoURL;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.File;
@@ -22,7 +21,7 @@ public class MavenRepositoryClientTest {
     public void shouldGetLatestVersion() throws IOException {
         LookupParams lookupParams = new LookupParams(
                 new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
-                "com.thoughtworks.studios.go", "book_inventory", "war", null, null, null, false);
+                "com.thoughtworks.studios.go", "book_inventory", "war", null, null, null);
         MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
         String responseBody = FileUtils.readFileToString(new File("test/fast/nexus-response.xml"));
         NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(responseBody);
@@ -37,7 +36,7 @@ public class MavenRepositoryClientTest {
         previouslyKnownRevision.addData(LookupParams.PACKAGE_VERSION,"1.0.0-18");
         LookupParams lookupParams = new LookupParams(
                 new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
-                "com.thoughtworks.studios.go", "book_inventory", "war", null, null, previouslyKnownRevision, false);
+                "com.thoughtworks.studios.go", "book_inventory", "war", null, null, previouslyKnownRevision);
         MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
         String responseBody = FileUtils.readFileToString(new File("test/fast/nexus-response.xml"));
         NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(responseBody);
@@ -50,7 +49,7 @@ public class MavenRepositoryClientTest {
         previouslyKnownRevision.addData(LookupParams.PACKAGE_VERSION,"1.0.0-17");
         LookupParams lookupParams = new LookupParams(
                 new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
-                "com.thoughtworks.studios.go", "book_inventory", "war", null, null, previouslyKnownRevision, false);
+                "com.thoughtworks.studios.go", "book_inventory", "war", null, null, previouslyKnownRevision);
         MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
         String responseBody = FileUtils.readFileToString(new File("test/fast/nexus-response.xml"));
         NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(responseBody);
@@ -66,7 +65,7 @@ public class MavenRepositoryClientTest {
         String upperBound = "1.0.17";
         LookupParams lookupParams = new LookupParams(
                 new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
-                "com.thoughtworks.studios.go", "book_inventory", "war", null, upperBound, previouslyKnownRevision, false);
+                "com.thoughtworks.studios.go", "book_inventory", "war", null, upperBound, previouslyKnownRevision);
         MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
         List<Version> allVersions = new ArrayList<Version>();
         allVersions.add(new Version("1.0.18"));
@@ -84,7 +83,7 @@ public class MavenRepositoryClientTest {
         String lowerBound = "0.1";
         LookupParams lookupParams = new LookupParams(
                 new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
-                "com.thoughtworks.studios.go", "book_inventory", "war",lowerBound, null, previouslyKnownRevision, false);
+                "com.thoughtworks.studios.go", "book_inventory", "war",lowerBound, null, previouslyKnownRevision);
         MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
         List<Version> allVersions = new ArrayList<Version>();
         allVersions.add(new Version("1.0.18"));
@@ -103,7 +102,7 @@ public class MavenRepositoryClientTest {
         String lowerBound = "0.1";
         LookupParams lookupParams = new LookupParams(
                 new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
-                "com.thoughtworks.studios.go", "book_inventory", "war",lowerBound, null, null, false);
+                "com.thoughtworks.studios.go", "book_inventory", "war",lowerBound, null, null);
         MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
         List<Version> allVersions = new ArrayList<Version>();
         allVersions.add(new Version("1.0.18"));
@@ -124,7 +123,7 @@ public class MavenRepositoryClientTest {
         String upperBound = "1.0.0-17";
         LookupParams lookupParams = new LookupParams(
                 new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
-                "com.thoughtworks.studios.go", "book_inventory", "war", null, upperBound, previouslyKnownRevision, false);
+                "com.thoughtworks.studios.go", "book_inventory", "war", null, upperBound, previouslyKnownRevision);
         MavenRepositoryClient client = new MavenRepositoryClient(lookupParams);
         List<Version> allVersions = new ArrayList<Version>();
         allVersions.add(new Version("1.0.0-18"));
