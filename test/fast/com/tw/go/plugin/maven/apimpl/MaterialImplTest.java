@@ -1,8 +1,8 @@
 package com.tw.go.plugin.maven.apimpl;
 
 
-import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRepositoryConfiguration;
-import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRepositoryPoller;
+import com.thoughtworks.go.plugin.api.material.packagerepository.PackageMaterialConfiguration;
+import com.thoughtworks.go.plugin.api.material.packagerepository.PackageMaterialPoller;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -14,7 +14,7 @@ public class MaterialImplTest {
     @Test
     public void shouldGetMavenRepositoryConfig() {
         MaterialImpl repositoryMaterial = new MaterialImpl();
-        PackageRepositoryConfiguration repositoryConfiguration = repositoryMaterial.getConfig();
+        PackageMaterialConfiguration repositoryConfiguration = repositoryMaterial.getConfig();
         assertThat(repositoryConfiguration, is(notNullValue()));
         assertThat(repositoryConfiguration, instanceOf(PluginConfig.class));
     }
@@ -22,7 +22,7 @@ public class MaterialImplTest {
     @Test
     public void shouldGetMavenRepositoryPoller() {
         MaterialImpl repositoryMaterial = new MaterialImpl();
-        PackageRepositoryPoller poller = repositoryMaterial.getPoller();
+        PackageMaterialPoller poller = repositoryMaterial.getPoller();
         assertThat(poller, is(notNullValue()));
         assertThat(poller, instanceOf(PollerImpl.class));
     }

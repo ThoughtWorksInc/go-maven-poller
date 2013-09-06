@@ -2,10 +2,11 @@ package com.tw.go.plugin.maven.config;
 
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration;
-import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfigurations;
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision;
-import com.thoughtworks.go.plugin.api.response.validation.Errors;
+import com.thoughtworks.go.plugin.api.material.packagerepository.Property;
+import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfiguration;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
+import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
 import com.tw.go.plugin.maven.LookupParams;
 import com.tw.go.plugin.maven.client.Version;
 import com.tw.go.plugin.util.StringUtil;
@@ -20,11 +21,11 @@ public class MavenPackageConfig {
     public static final String POLL_VERSION_FROM = "POLL_VERSION_FROM";
     public static final String POLL_VERSION_TO = "POLL_VERSION_TO";
     public static final String INVALID_BOUNDS_MESSAGE = "Lower Bound cannot be >= Upper Bound";
-    private final PackageConfigurations packageConfigs;
-    private final PackageConfiguration groupIdConfig;
-    private final PackageConfiguration artifactIdConfig;
+    private final PackageConfiguration packageConfigs;
+    private final Property groupIdConfig;
+    private final Property artifactIdConfig;
 
-    public MavenPackageConfig(PackageConfigurations packageConfigs) {
+    public MavenPackageConfig(PackageConfiguration packageConfigs) {
         this.packageConfigs = packageConfigs;
         this.groupIdConfig = packageConfigs.get(GROUP_ID);
         this.artifactIdConfig = packageConfigs.get(ARTIFACT_ID);
@@ -51,12 +52,12 @@ public class MavenPackageConfig {
     }
 
     public String getPollVersionFrom() {
-        PackageConfiguration from = packageConfigs.get(POLL_VERSION_FROM);
+        Property from = packageConfigs.get(POLL_VERSION_FROM);
         return (from == null) ? null : from.getValue();
     }
 
     public String getPollVersionTo() {
-        PackageConfiguration to = packageConfigs.get(POLL_VERSION_TO);
+        Property to = packageConfigs.get(POLL_VERSION_TO);
         return (to == null) ? null : to.getValue();
     }
 
@@ -65,11 +66,11 @@ public class MavenPackageConfig {
     }
 
     public String getArtifactExtn() {
-        PackageConfiguration extn = packageConfigs.get(ARTIFACT_EXTN);
+        Property extn = packageConfigs.get(ARTIFACT_EXTN);
         return (extn == null) ? null : extn.getValue();
     }
 
-    public LookupParams getLookupParams(PackageConfigurations repoConfig, PackageRevision previouslyKnownRevision) {
+    public LookupParams getLookupParams(RepositoryConfiguration repoConfig, PackageRevision previouslyKnownRevision) {
         return new LookupParams(
                 new MavenRepoConfig(repoConfig).getRepoUrl(),
                 getGroupId(), getArtifactId(), getArtifactExtn(),
@@ -78,7 +79,7 @@ public class MavenPackageConfig {
                 previouslyKnownRevision);
     }
 
-    private void validateId(Errors errors, PackageConfiguration groupOrArtifactConfig, String what) {
+    private void validateId(ValidationResult errors, Property groupOrArtifactConfig, String what) {
         if (groupOrArtifactConfig == null || groupOrArtifactConfig.getValue() == null || isBlank(groupOrArtifactConfig.getValue().trim())) {
             String message = what + " is not specified";
             LOGGER.info(message);
@@ -93,11 +94,11 @@ public class MavenPackageConfig {
         }
     }
 
-    public void validate(Errors errors) {
+    public void validate(ValidationResult errors) {
         validateId(errors, groupIdConfig, GROUP_ID);
         validateId(errors, artifactIdConfig, ARTIFACT_ID);
         boolean lowerBoundSpecified = false;
-        PackageConfiguration lowerBoundConfig = packageConfigs.get(POLL_VERSION_FROM);
+        Property lowerBoundConfig = packageConfigs.get(POLL_VERSION_FROM);
         if (lowerBoundConfig != null && lowerBoundConfig.getValue() != null && StringUtil.isNotBlank(lowerBoundConfig.getValue())) {
             lowerBoundSpecified = true;
             try {
@@ -107,7 +108,7 @@ public class MavenPackageConfig {
             }
         }
         boolean upperBoundSpecified = false;
-        PackageConfiguration upperBoundConfig = packageConfigs.get(POLL_VERSION_TO);
+        Property upperBoundConfig = packageConfigs.get(POLL_VERSION_TO);
         if (upperBoundConfig != null && upperBoundConfig.getValue() != null && StringUtil.isNotBlank(upperBoundConfig.getValue())) {
             upperBoundSpecified = true;
             try {

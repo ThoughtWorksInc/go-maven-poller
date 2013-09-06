@@ -1,9 +1,10 @@
 package com.tw.go.plugin.maven.apimpl;
 
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration;
-import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfigurations;
-import com.thoughtworks.go.plugin.api.response.validation.Errors;
+import com.thoughtworks.go.plugin.api.material.packagerepository.Property;
+import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfiguration;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
+import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
 import com.tw.go.plugin.maven.config.MavenPackageConfig;
 import com.tw.go.plugin.maven.config.MavenRepoConfig;
 import com.tw.go.plugin.util.InvalidRepoUrl;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration.*;
+import static com.thoughtworks.go.plugin.api.material.packagerepository.Property.*;
 import static com.tw.go.plugin.maven.config.MavenPackageConfig.*;
 import static java.util.Arrays.asList;
 import static org.hamcrest.core.Is.is;
@@ -35,27 +36,27 @@ public class PluginConfigTest {
 
     @Test
     public void shouldGetRepositoryConfiguration() {
-        PackageConfigurations configurations = pluginConfig.getRepositoryConfiguration();
+        RepositoryConfiguration configurations = pluginConfig.getRepositoryConfiguration();
         assertThat(configurations.get(RepoUrl.REPO_URL), is(notNullValue()));
-        assertThat(configurations.get(RepoUrl.REPO_URL).getOption(PackageConfiguration.SECURE), is(false));
-        assertThat(configurations.get(RepoUrl.REPO_URL).getOption(PackageConfiguration.REQUIRED), is(true));
+        assertThat(configurations.get(RepoUrl.REPO_URL).getOption(SECURE), is(false));
+        assertThat(configurations.get(RepoUrl.REPO_URL).getOption(Property.REQUIRED), is(true));
         assertThat(configurations.get(RepoUrl.REPO_URL).getOption(DISPLAY_NAME), is("Maven Repo base URL"));
         assertThat(configurations.get(RepoUrl.REPO_URL).getOption(DISPLAY_ORDER), is(0));
         assertThat(configurations.get(RepoUrl.USERNAME), is(notNullValue()));
-        assertThat(configurations.get(RepoUrl.USERNAME).getOption(PackageConfiguration.SECURE), is(false));
-        assertThat(configurations.get(RepoUrl.USERNAME).getOption(PackageConfiguration.REQUIRED), is(false));
+        assertThat(configurations.get(RepoUrl.USERNAME).getOption(SECURE), is(false));
+        assertThat(configurations.get(RepoUrl.USERNAME).getOption(REQUIRED), is(false));
         assertThat(configurations.get(RepoUrl.USERNAME).getOption(DISPLAY_NAME), is("UserName"));
         assertThat(configurations.get(RepoUrl.USERNAME).getOption(DISPLAY_ORDER), is(1));
         assertThat(configurations.get(RepoUrl.PASSWORD), is(notNullValue()));
-        assertThat(configurations.get(RepoUrl.PASSWORD).getOption(PackageConfiguration.SECURE), is(true));
-        assertThat(configurations.get(RepoUrl.PASSWORD).getOption(PackageConfiguration.REQUIRED), is(false));
+        assertThat(configurations.get(RepoUrl.PASSWORD).getOption(SECURE), is(true));
+        assertThat(configurations.get(RepoUrl.PASSWORD).getOption(REQUIRED), is(false));
         assertThat(configurations.get(RepoUrl.PASSWORD).getOption(DISPLAY_NAME), is("Password"));
         assertThat(configurations.get(RepoUrl.PASSWORD).getOption(DISPLAY_ORDER), is(2));
     }
 
     @Test
     public void shouldGetPackageConfiguration() {
-        PackageConfigurations configurations = pluginConfig.getPackageConfiguration();
+        PackageConfiguration configurations = pluginConfig.getPackageConfiguration();
         assertNotNull(configurations.get(GROUP_ID));
         assertThat(configurations.get(GROUP_ID).getOption(DISPLAY_NAME), is("Group Id"));
         assertThat(configurations.get(GROUP_ID).getOption(DISPLAY_ORDER), is(0));
@@ -71,7 +72,7 @@ public class PluginConfigTest {
 
     @Test
     public void shouldValidateRepoUrl() {
-        assertForRepositoryConfigurationErrors(new PackageConfigurations(), asList(new ValidationError(RepoUrl.REPO_URL, "Repository url not specified")), false);
+        assertForRepositoryConfigurationErrors(new RepositoryConfiguration(), asList(new ValidationError(RepoUrl.REPO_URL, "Repository url not specified")), false);
         assertForRepositoryConfigurationErrors(configurations(RepoUrl.REPO_URL, null), asList(new ValidationError(RepoUrl.REPO_URL, InvalidRepoUrl.MESSAGE)), false);
         assertForRepositoryConfigurationErrors(configurations(RepoUrl.REPO_URL, ""), asList(new ValidationError(RepoUrl.REPO_URL, InvalidRepoUrl.MESSAGE)), false);
         assertForRepositoryConfigurationErrors(configurations(RepoUrl.REPO_URL, "incorrectUrl"), asList(new ValidationError(RepoUrl.REPO_URL, InvalidRepoUrl.MESSAGE)), false);
@@ -79,9 +80,9 @@ public class PluginConfigTest {
     }
     @Test
     public void shouldRejectUnsupportedTagsInRepoConfig() {
-        PackageConfigurations repoConfig = new PackageConfigurations();
-        repoConfig.add(new PackageConfiguration(RepoUrl.REPO_URL, "http://maven.org"));
-        repoConfig.add(new PackageConfiguration("unsupported_key", "value"));
+        RepositoryConfiguration repoConfig = new RepositoryConfiguration();
+        repoConfig.add(new Property(RepoUrl.REPO_URL, "http://maven.org"));
+        repoConfig.add(new Property("unsupported_key", "value"));
         assertForRepositoryConfigurationErrors(
                 repoConfig,
                 asList(new ValidationError("Unsupported key: unsupported_key. Valid keys: "+ Arrays.toString(MavenRepoConfig.getValidKeys()))),
@@ -90,9 +91,9 @@ public class PluginConfigTest {
     }
     @Test
     public void shouldRejectUnsupportedTagsInPkgConfig() {
-        PackageConfigurations pkgConfig = new PackageConfigurations();
-        pkgConfig.add(new PackageConfiguration(GROUP_ID, "abc"));
-        pkgConfig.add(new PackageConfiguration("unsupported_key", "value"));
+        PackageConfiguration pkgConfig = new PackageConfiguration();
+        pkgConfig.add(new Property(GROUP_ID, "abc"));
+        pkgConfig.add(new Property("unsupported_key", "value"));
         assertForPackageConfigurationErrors(
                 pkgConfig,
                 asList(noArtifact, new ValidationError("Unsupported key: unsupported_key. Valid keys: "+ Arrays.toString(MavenPackageConfig.getValidKeys()))),
@@ -105,35 +106,37 @@ public class PluginConfigTest {
                 noGroup,
                 noArtifact
         );
-        assertForPackageConfigurationErrors(new PackageConfigurations(), expectedErrors, false);
-        assertForPackageConfigurationErrors(configurations(GROUP_ID, null), expectedErrors, false);
-        assertForPackageConfigurationErrors(configurations(GROUP_ID, ""), expectedErrors, false);
-        assertForPackageConfigurationErrors(configurations(GROUP_ID, "go-age?nt-*"), asList(new ValidationError(GROUP_ID, "GROUP_ID [go-age?nt-*] is invalid"), noArtifact), false);
-        assertForPackageConfigurationErrors(configurations(GROUP_ID, "go-agent"), asList(noArtifact), false);
+        assertForPackageConfigurationErrors(new PackageConfiguration(), expectedErrors, false);
+        assertForPackageConfigurationErrors(packageConfiguration(GROUP_ID, null), expectedErrors, false);
+        assertForPackageConfigurationErrors(packageConfiguration(GROUP_ID, ""), expectedErrors, false);
+        assertForPackageConfigurationErrors(packageConfiguration(GROUP_ID, "go-age?nt-*"), asList(new ValidationError(GROUP_ID, "GROUP_ID [go-age?nt-*] is invalid"), noArtifact), false);
+        assertForPackageConfigurationErrors(packageConfiguration(GROUP_ID, "go-agent"), asList(noArtifact), false);
     }
 
-    private void assertForRepositoryConfigurationErrors(PackageConfigurations repositoryConfigurations, List<ValidationError> expectedErrors, boolean expectedValidationResult) {
-        Errors errors = new Errors();
-        boolean result = pluginConfig.isRepositoryConfigurationValid(repositoryConfigurations, errors);
-        assertThat(result, is(expectedValidationResult));
-        assertThat(errors.getErrors().size(), is(expectedErrors.size()));
-        assertThat(errors.getErrors().containsAll(expectedErrors), is(true));
+    private void assertForRepositoryConfigurationErrors(RepositoryConfiguration repositoryConfigurations, List<ValidationError> expectedErrors, boolean expectedValidationResult) {
+        ValidationResult validationResult = pluginConfig.isRepositoryConfigurationValid(repositoryConfigurations);
+        assertThat(validationResult.isSuccessful(), is(expectedValidationResult));
+        assertThat(validationResult.getErrors().size(), is(expectedErrors.size()));
+        assertThat(validationResult.getErrors().containsAll(expectedErrors), is(true));
     }
 
-    private void assertForPackageConfigurationErrors(PackageConfigurations packageConfigurations, List<ValidationError> expectedErrors, boolean expectedValidationResult) {
-        Errors errors = new Errors();
-        final PackageConfigurations repoConfig = new PackageConfigurations();
-        repoConfig.add(new PackageConfiguration(RepoUrl.REPO_URL, "http://maven.org/v2"));
-        boolean result = pluginConfig.isPackageConfigurationValid(packageConfigurations, repoConfig, errors);
-        assertThat(result, is(expectedValidationResult));
-        assertThat(errors.getErrors().size(), is(expectedErrors.size()));
-        assertThat(errors.getErrors().containsAll(expectedErrors), is(true));
+    private void assertForPackageConfigurationErrors(PackageConfiguration packageConfigurations, List<ValidationError> expectedErrors, boolean expectedValidationResult) {
+        final RepositoryConfiguration repoConfig = new RepositoryConfiguration();
+        repoConfig.add(new Property(RepoUrl.REPO_URL, "http://maven.org/v2"));
+        ValidationResult result = pluginConfig.isPackageConfigurationValid(packageConfigurations, repoConfig);
+        assertThat(result.isSuccessful(), is(expectedValidationResult));
+        assertThat(result.getErrors().size(), is(expectedErrors.size()));
+        assertThat(result.getErrors().containsAll(expectedErrors), is(true));
     }
 
-    private PackageConfigurations configurations(String key, String value) {
-        PackageConfigurations packageConfigurations = new PackageConfigurations();
-        PackageConfigurations configurations = packageConfigurations;
-        configurations.add(new PackageConfiguration(key, value));
+    private RepositoryConfiguration configurations(String key, String value) {
+        RepositoryConfiguration configurations = new RepositoryConfiguration();
+        configurations.add(new Property(key, value));
+        return configurations;
+    }
+    private PackageConfiguration packageConfiguration(String key, String value) {
+        PackageConfiguration configurations = new PackageConfiguration();
+        configurations.add(new Property(key, value));
         return configurations;
     }
 }

@@ -1,16 +1,18 @@
 package com.tw.go.plugin.maven.apimpl;
 
 import com.thoughtworks.go.plugin.api.annotation.Extension;
-import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRepositoryMaterial;
+import com.thoughtworks.go.plugin.api.material.packagerepository.PackageMaterialConfiguration;
+import com.thoughtworks.go.plugin.api.material.packagerepository.PackageMaterialPoller;
+import com.thoughtworks.go.plugin.api.material.packagerepository.PackageMaterialProvider;
 
 @Extension
-public class MaterialImpl implements PackageRepositoryMaterial {
+public class MaterialImpl implements PackageMaterialProvider {
 
-    public PluginConfig getConfig() {
+    public PackageMaterialConfiguration getConfig() {
         return new PluginConfig();
     }
 
-    public PollerImpl getPoller() {
+    public PackageMaterialPoller getPoller() {
         return new PollerImpl();
     }
 }
