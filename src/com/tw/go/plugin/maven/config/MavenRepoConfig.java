@@ -1,19 +1,19 @@
 package com.tw.go.plugin.maven.config;
 
-import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration;
-import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfigurations;
+import com.thoughtworks.go.plugin.api.material.packagerepository.Property;
+import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfiguration;
 import com.tw.go.plugin.util.RepoUrl;
 
 public class MavenRepoConfig {
-    private final PackageConfigurations repoConfigs;
-    private final PackageConfiguration repoUrlConfig;
+    private final RepositoryConfiguration repoConfigs;
+    private final Property repoUrlConfig;
 
-    public MavenRepoConfig(PackageConfigurations repoConfigs) {
+    public MavenRepoConfig(RepositoryConfiguration repoConfigs) {
         this.repoConfigs = repoConfigs;
         repoUrlConfig = repoConfigs.get(RepoUrl.REPO_URL);
     }
 
-    public String stringValueOf(PackageConfiguration packageConfiguration) {
+    public String stringValueOf(Property packageConfiguration) {
         if (packageConfiguration == null) return null;
         return packageConfiguration.getValue();
     }

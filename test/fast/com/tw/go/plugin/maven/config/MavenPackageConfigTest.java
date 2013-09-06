@@ -1,9 +1,9 @@
 package com.tw.go.plugin.maven.config;
 
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration;
-import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfigurations;
-import com.thoughtworks.go.plugin.api.response.validation.Errors;
+import com.thoughtworks.go.plugin.api.material.packagerepository.Property;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
+import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -14,42 +14,42 @@ import static org.junit.Assert.assertTrue;
 public class MavenPackageConfigTest {
     @Test
     public void shouldValidateBounds(){
-        PackageConfigurations packageConfigs = new PackageConfigurations();
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.GROUP_ID, "com.tw"));
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.ARTIFACT_ID, "mypkg"));
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.POLL_VERSION_FROM, "1.2"));
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.POLL_VERSION_TO, "1.5"));
+        PackageConfiguration packageConfigs = new PackageConfiguration();
+        packageConfigs.add(new Property(MavenPackageConfig.GROUP_ID, "com.tw"));
+        packageConfigs.add(new Property(MavenPackageConfig.ARTIFACT_ID, "mypkg"));
+        packageConfigs.add(new Property(MavenPackageConfig.POLL_VERSION_FROM, "1.2"));
+        packageConfigs.add(new Property(MavenPackageConfig.POLL_VERSION_TO, "1.5"));
         MavenPackageConfig mavenPackageConfig = new MavenPackageConfig(packageConfigs);
-        Errors errors = new Errors();
+        ValidationResult errors = new ValidationResult();
         mavenPackageConfig.validate(errors);
-        assertFalse(errors.hasErrors());
+        assertTrue(errors.isSuccessful());
     }
     @Test
     public void shouldRejectInvalidBounds(){
-        PackageConfigurations packageConfigs = new PackageConfigurations();
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.GROUP_ID, "com.tw"));
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.ARTIFACT_ID, "mypkg"));
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.POLL_VERSION_FROM, "1.2"));
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.POLL_VERSION_TO, "1.1"));
+        PackageConfiguration packageConfigs = new PackageConfiguration();
+        packageConfigs.add(new Property(MavenPackageConfig.GROUP_ID, "com.tw"));
+        packageConfigs.add(new Property(MavenPackageConfig.ARTIFACT_ID, "mypkg"));
+        packageConfigs.add(new Property(MavenPackageConfig.POLL_VERSION_FROM, "1.2"));
+        packageConfigs.add(new Property(MavenPackageConfig.POLL_VERSION_TO, "1.1"));
         MavenPackageConfig mavenPackageConfig = new MavenPackageConfig(packageConfigs);
-        Errors errors = new Errors();
+        ValidationResult errors = new ValidationResult();
         mavenPackageConfig.validate(errors);
-        assertTrue(errors.hasErrors());
+        assertFalse(errors.isSuccessful());
         ValidationError error = errors.getErrors().get(0);
         assertThat(error.getMessage(), is(MavenPackageConfig.INVALID_BOUNDS_MESSAGE));
     }
 
     @Test
     public void shouldRejectEqualBounds(){
-        PackageConfigurations packageConfigs = new PackageConfigurations();
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.GROUP_ID, "com.tw"));
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.ARTIFACT_ID, "mypkg"));
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.POLL_VERSION_FROM, "1.2"));
-        packageConfigs.addConfiguration(new PackageConfiguration(MavenPackageConfig.POLL_VERSION_TO, "1.2"));
+        PackageConfiguration packageConfigs = new PackageConfiguration();
+        packageConfigs.add(new Property(MavenPackageConfig.GROUP_ID, "com.tw"));
+        packageConfigs.add(new Property(MavenPackageConfig.ARTIFACT_ID, "mypkg"));
+        packageConfigs.add(new Property(MavenPackageConfig.POLL_VERSION_FROM, "1.2"));
+        packageConfigs.add(new Property(MavenPackageConfig.POLL_VERSION_TO, "1.2"));
         MavenPackageConfig mavenPackageConfig = new MavenPackageConfig(packageConfigs);
-        Errors errors = new Errors();
+        ValidationResult errors = new ValidationResult();
         mavenPackageConfig.validate(errors);
-        assertTrue(errors.hasErrors());
+        assertFalse(errors.isSuccessful());
         ValidationError error = errors.getErrors().get(0);
         assertThat(error.getMessage(), is(MavenPackageConfig.INVALID_BOUNDS_MESSAGE));
     }
