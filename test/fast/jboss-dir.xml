@@ -1,0 +1,44 @@
+<content>
+    <data>
+        <content-item>
+            <resourceURI>https://repository.jboss.org/nexus/content/groups/public/jboss/jboss-aop/jboss-aop/</resourceURI>
+            <relativePath>/groups/public/jboss/jboss-aop/jboss-aop/</relativePath>
+            <text>jboss-aop</text>
+            <leaf>false</leaf>
+            <lastModified>2013-08-16 09:48:07.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>https://repository.jboss.org/nexus/content/groups/public/jboss/jboss-aop/maven-metadata.xml.md5</resourceURI>
+            <relativePath>/groups/public/jboss/jboss-aop/maven-metadata.xml.md5</relativePath>
+            <text>maven-metadata.xml.md5</text>
+            <leaf>true</leaf>
+            <lastModified>2013-09-10 07:00:01.0 UTC</lastModified>
+            <sizeOnDisk>33</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>https://repository.jboss.org/nexus/content/groups/public/jboss/jboss-aop/maven-metadata.xml.sha1</resourceURI>
+            <relativePath>/groups/public/jboss/jboss-aop/maven-metadata.xml.sha1</relativePath>
+            <text>maven-metadata.xml.sha1</text>
+            <leaf>true</leaf>
+            <lastModified>2013-09-10 07:00:01.0 UTC</lastModified>
+            <sizeOnDisk>41</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>https://repository.jboss.org/nexus/content/groups/public/jboss/jboss-aop/2.0.0.alpha2/</resourceURI>
+            <relativePath>/groups/public/jboss/jboss-aop/2.0.0.alpha2/</relativePath>
+            <text>2.0.0.alpha2</text>
+            <leaf>false</leaf>
+            <lastModified>2012-07-23 15:25:44.0 UTC</lastModified>
+            <sizeOnDisk>-1</sizeOnDisk>
+        </content-item>
+        <content-item>
+            <resourceURI>https://repository.jboss.org/nexus/content/groups/public/jboss/jboss-aop/maven-metadata.xml</resourceURI>
+            <relativePath>/groups/public/jboss/jboss-aop/maven-metadata.xml</relativePath>
+            <text>maven-metadata.xml</text>
+            <leaf>true</leaf>
+            <lastModified>2012-04-14 00:14:44.0 UTC</lastModified>
+            <sizeOnDisk>363</sizeOnDisk>
+        </content-item>
+    </data>
+</content>

@@ -57,6 +57,7 @@ public class Version implements Serializable, Comparable<Version> {
     private Date lastModified = null;
     private String location = null;
     private String groupId = null;
+    private char lastDelimiter;
 
     /**
      * Strip the qualifier, which is the first occurrence of a character which
@@ -112,6 +113,8 @@ public class Version implements Serializable, Comparable<Version> {
             if ((c < '0' || '9' < c)) {
                 idx = j;
                 delimiter = c;
+                if(!Character.isLetterOrDigit(c))
+                    lastDelimiter = c;
                 break;
             }
             j++;
@@ -292,7 +295,7 @@ public class Version implements Serializable, Comparable<Version> {
     }
 
     public String getRevisionLabel() {
-        return String.format("%s:%s.%s-%s", groupId, artifactId, version, qualifier);
+        return String.format("%s:%s.%s%s%s", groupId, artifactId, version,lastDelimiter, qualifier);
     }
 
     public PackageRevision toPackageRevision() {
@@ -320,7 +323,7 @@ public class Version implements Serializable, Comparable<Version> {
 
     public String getV_Q() {
         if (getQualifier() != null)
-            return getVersion() + "-" + getQualifier();
+            return getVersion() + lastDelimiter + getQualifier();
         return getVersion();
     }
 

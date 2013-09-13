@@ -27,10 +27,10 @@ public class MavenRepositoryClient {
         List<Version> allVersions = getAllVersions(responseBody);
         Version latest = getLatest(allVersions);
         if(latest != null){
-            LOGGER.info("Latest is "+latest.getRevisionLabel());
-            latest.setLocation(getLocation(latest));
             latest.setArtifactId(lookupParams.getArtifactId());
             latest.setGroupId(lookupParams.getGroupId());
+            LOGGER.info("Latest is "+latest.getRevisionLabel());
+            latest.setLocation(getLocation(latest));
         }else{
             LOGGER.warn("getLatest returning null");
         }

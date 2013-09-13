@@ -73,7 +73,7 @@ public class PluginConfigTest {
     @Test
     public void shouldValidateRepoUrl() {
         assertForRepositoryConfigurationErrors(new RepositoryConfiguration(), asList(new ValidationError(RepoUrl.REPO_URL, "Repository url not specified")), false);
-        assertForRepositoryConfigurationErrors(configurations(RepoUrl.REPO_URL, null), asList(new ValidationError(RepoUrl.REPO_URL, InvalidRepoUrl.MESSAGE)), false);
+        assertForRepositoryConfigurationErrors(configurations(RepoUrl.REPO_URL, null), asList(new ValidationError(RepoUrl.REPO_URL, "Repository url not specified")), false);
         assertForRepositoryConfigurationErrors(configurations(RepoUrl.REPO_URL, ""), asList(new ValidationError(RepoUrl.REPO_URL, InvalidRepoUrl.MESSAGE)), false);
         assertForRepositoryConfigurationErrors(configurations(RepoUrl.REPO_URL, "incorrectUrl"), asList(new ValidationError(RepoUrl.REPO_URL, InvalidRepoUrl.MESSAGE)), false);
         assertForRepositoryConfigurationErrors(configurations(RepoUrl.REPO_URL, "http://correct.com/url"), new ArrayList<ValidationError>(), true);

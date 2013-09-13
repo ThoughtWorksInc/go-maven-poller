@@ -30,8 +30,10 @@ public class PollerImpl implements PackageMaterialPoller {
         validateConfig(repoConfig, packageConfig);
         LookupParams params = new MavenPackageConfig(packageConfig).getLookupParams(repoConfig, null);
         PackageRevision packageRevision = poll(params);
-        LOGGER.info(String.format("getLatestRevision returning with %s, %s",
+        if(packageRevision != null){
+            LOGGER.info(String.format("getLatestRevision returning with %s, %s",
                 packageRevision.getRevision(), packageRevision.getTimestamp()));
+        }
         return packageRevision;
     }
 
@@ -56,27 +58,30 @@ public class PollerImpl implements PackageMaterialPoller {
     @Override
     public Result checkConnectionToRepository(RepositoryConfiguration repoConfigs) {
         RepoUrl repoUrl = new MavenRepoConfig(repoConfigs).getRepoUrl();
-        Result response = new Result();
+        Result result = new Result();
         try {
-            boolean result = new RepositoryConnector().testConnection(repoUrl.getUrlStr(), repoUrl.getCredentials().getUser(), repoUrl.getCredentials().getPassword());
-            if (!result) {
-                response.withErrorMessages("Did not get HTTP Status 200 response");
+            if (!new RepositoryConnector().testConnection(repoUrl.getUrlStr(), repoUrl.getCredentials().getUser(), repoUrl.getCredentials().getPassword())) {
+                result.withErrorMessages("Did not get HTTP Status 200 response");
             }
         } catch (Exception e) {
-            response.withErrorMessages(e.getMessage());
+            result.withErrorMessages(e.getMessage());
         }
-        return response;
+        return result;
     }
 
     @Override
     public Result checkConnectionToPackage(PackageConfiguration packageConfigs, RepositoryConfiguration repoConfigs) {
-        Result repoCheckResponse = checkConnectionToRepository(repoConfigs);
-        if(!repoCheckResponse.isSuccessful())
-            return repoCheckResponse;
+        Result repoCheckResult = checkConnectionToRepository(repoConfigs);
+        if (!repoCheckResult.isSuccessful())
+            return repoCheckResult;
         PackageRevision packageRevision = getLatestRevision(packageConfigs, repoConfigs);
-        Result response = new Result();
-        response.withSuccessMessages("Found "+packageRevision.getRevision());
-        return response;
+        Result result = new Result();
+        if (packageRevision != null) {
+            result.withSuccessMessages("Found " + packageRevision.getRevision());
+        } else {
+            result.withErrorMessages("Could not find package");
+        }
+        return result;
     }
 
     private void validateConfig(RepositoryConfiguration repoConfig, PackageConfiguration packageConfig) {
@@ -94,7 +99,7 @@ public class PollerImpl implements PackageMaterialPoller {
 
     PackageRevision poll(LookupParams params) {
         Version latest = new MavenRepositoryClient(params).getLatest();
-        if(latest == null) return null;
+        if (latest == null) return null;
         return latest.toPackageRevision();
     }
 }

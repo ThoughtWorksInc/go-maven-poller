@@ -20,13 +20,18 @@ public class MavenRepoConfig {
 
     public RepoUrl getRepoUrl() {
         return RepoUrl.create(
-                repoUrlConfig.getValue(),
+                withTrailingSlash(repoUrlConfig.getValue()),
                 stringValueOf(repoConfigs.get(RepoUrl.USERNAME)),
                 stringValueOf(repoConfigs.get(RepoUrl.PASSWORD)));
     }
 
+    private String withTrailingSlash(String repoUrl) {
+        if(repoUrl.endsWith("/")) return repoUrl;
+        return repoUrl + "/";
+    }
+
     public boolean isRepoUrlMissing() {
-        return repoUrlConfig == null;
+        return repoUrlConfig == null || repoUrlConfig.getValue() == null;
     }
 
     public static String[] getValidKeys() {
