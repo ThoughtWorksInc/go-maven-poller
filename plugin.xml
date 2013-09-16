@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <go-plugin id="maven" version="1">
 <about>
-    <name>Maven plugin</name>
+    <name>Maven Nexus plugin</name>
     <version>1.0.0</version>
     <target-go-version>13.3</target-go-version>
-    <description>Plugin that polls a Maven Repository</description>
+    <description>Polls a Nexus repository that has directory browsing enabled</description>
     <vendor>
         <name>ThoughtWorks Go Team</name>
         <url>www.thoughtworks.com</url>

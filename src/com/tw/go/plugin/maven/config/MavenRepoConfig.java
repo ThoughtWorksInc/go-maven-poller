@@ -5,12 +5,12 @@ import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfi
 import com.tw.go.plugin.util.RepoUrl;
 
 public class MavenRepoConfig {
-    private final RepositoryConfiguration repoConfigs;
-    private final Property repoUrlConfig;
+    private final RepositoryConfiguration repoConfig;
+    private final Property repoUrlProperty;
 
-    public MavenRepoConfig(RepositoryConfiguration repoConfigs) {
-        this.repoConfigs = repoConfigs;
-        repoUrlConfig = repoConfigs.get(RepoUrl.REPO_URL);
+    public MavenRepoConfig(RepositoryConfiguration repoConfig) {
+        this.repoConfig = repoConfig;
+        repoUrlProperty = repoConfig.get(RepoUrl.REPO_URL);
     }
 
     public String stringValueOf(Property packageConfiguration) {
@@ -20,9 +20,9 @@ public class MavenRepoConfig {
 
     public RepoUrl getRepoUrl() {
         return RepoUrl.create(
-                withTrailingSlash(repoUrlConfig.getValue()),
-                stringValueOf(repoConfigs.get(RepoUrl.USERNAME)),
-                stringValueOf(repoConfigs.get(RepoUrl.PASSWORD)));
+                withTrailingSlash(repoUrlProperty.getValue()),
+                stringValueOf(repoConfig.get(RepoUrl.USERNAME)),
+                stringValueOf(repoConfig.get(RepoUrl.PASSWORD)));
     }
 
     private String withTrailingSlash(String repoUrl) {
@@ -31,7 +31,7 @@ public class MavenRepoConfig {
     }
 
     public boolean isRepoUrlMissing() {
-        return repoUrlConfig == null || repoUrlConfig.getValue() == null;
+        return repoUrlProperty == null || repoUrlProperty.getValue() == null;
     }
 
     public static String[] getValidKeys() {

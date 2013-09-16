@@ -19,8 +19,8 @@ import com.tw.go.plugin.util.RepoUrl;
 import static com.tw.go.plugin.maven.config.MavenPackageConfig.ARTIFACT_ID;
 import static com.tw.go.plugin.maven.config.MavenPackageConfig.GROUP_ID;
 
-public class PollerImpl implements PackageMaterialPoller {
-    private static Logger LOGGER = Logger.getLoggerFor(PollerImpl.class);
+public class MavenPoller implements PackageMaterialPoller {
+    private static Logger LOGGER = Logger.getLoggerFor(MavenPoller.class);
 
     public PackageRevision getLatestRevision(PackageConfiguration packageConfig, RepositoryConfiguration repoConfig) {
         LOGGER.info(String.format("getLatestRevision called with groupId %s, artifactId %s, for repo: %s",
@@ -56,8 +56,8 @@ public class PollerImpl implements PackageMaterialPoller {
     }
 
     @Override
-    public Result checkConnectionToRepository(RepositoryConfiguration repoConfigs) {
-        RepoUrl repoUrl = new MavenRepoConfig(repoConfigs).getRepoUrl();
+    public Result checkConnectionToRepository(RepositoryConfiguration repoConfig) {
+        RepoUrl repoUrl = new MavenRepoConfig(repoConfig).getRepoUrl();
         Result result = new Result();
         try {
             if (!new RepositoryConnector().testConnection(repoUrl.getUrlStr(), repoUrl.getCredentials().getUser(), repoUrl.getCredentials().getPassword())) {
@@ -70,11 +70,11 @@ public class PollerImpl implements PackageMaterialPoller {
     }
 
     @Override
-    public Result checkConnectionToPackage(PackageConfiguration packageConfigs, RepositoryConfiguration repoConfigs) {
-        Result repoCheckResult = checkConnectionToRepository(repoConfigs);
+    public Result checkConnectionToPackage(PackageConfiguration packageConfig, RepositoryConfiguration repoConfig) {
+        Result repoCheckResult = checkConnectionToRepository(repoConfig);
         if (!repoCheckResult.isSuccessful())
             return repoCheckResult;
-        PackageRevision packageRevision = getLatestRevision(packageConfigs, repoConfigs);
+        PackageRevision packageRevision = getLatestRevision(packageConfig, repoConfig);
         Result result = new Result();
         if (packageRevision != null) {
             result.withSuccessMessages("Found " + packageRevision.getRevision());

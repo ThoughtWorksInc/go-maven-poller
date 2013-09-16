@@ -42,26 +42,26 @@ public class PluginConfig implements PackageMaterialConfiguration {
 
 
     public RepositoryConfiguration getRepositoryConfiguration() {
-        RepositoryConfiguration configurations = new RepositoryConfiguration();
-        configurations.add(REPO_CONFIG_REPO_URL);
-        configurations.add(REPO_CONFIG_USERNAME);
-        configurations.add(REPO_CONFIG_PASSWORD);
-        return configurations;
+        RepositoryConfiguration repoConfig = new RepositoryConfiguration();
+        repoConfig.add(REPO_CONFIG_REPO_URL);
+        repoConfig.add(REPO_CONFIG_USERNAME);
+        repoConfig.add(REPO_CONFIG_PASSWORD);
+        return repoConfig;
     }
 
     public PackageConfiguration getPackageConfiguration() {
-        PackageConfiguration configurations = new PackageConfiguration();
-        configurations.add(PKG_CONFIG_GROUP_ID);
-        configurations.add(PKG_CONFIG_ARTIFACT_ID);
-        configurations.add(PKG_CONFIG_ARTIFACT_EXTN);
-        configurations.add(PKG_CONFIG_POLL_VERSION_FROM);
-        configurations.add(PKG_CONFIG_POLL_VERSION_TO);
-        return configurations;
+        PackageConfiguration packageConfig = new PackageConfiguration();
+        packageConfig.add(PKG_CONFIG_GROUP_ID);
+        packageConfig.add(PKG_CONFIG_ARTIFACT_ID);
+        packageConfig.add(PKG_CONFIG_ARTIFACT_EXTN);
+        packageConfig.add(PKG_CONFIG_POLL_VERSION_FROM);
+        packageConfig.add(PKG_CONFIG_POLL_VERSION_TO);
+        return packageConfig;
     }
 
     @Override
-    public ValidationResult isRepositoryConfigurationValid(RepositoryConfiguration repoConfigs) {
-        MavenRepoConfig mavenRepoConfig = new MavenRepoConfig(repoConfigs);
+    public ValidationResult isRepositoryConfigurationValid(RepositoryConfiguration repoConfig) {
+        MavenRepoConfig mavenRepoConfig = new MavenRepoConfig(repoConfig);
         ValidationResult validationResult = new ValidationResult();
         if (mavenRepoConfig.isRepoUrlMissing()) {
             String message = "Repository url not specified";
@@ -70,21 +70,21 @@ public class PluginConfig implements PackageMaterialConfiguration {
             return validationResult;
         }
         mavenRepoConfig.getRepoUrl().validate(validationResult);
-        detectInvalidKeys(repoConfigs, validationResult, MavenRepoConfig.getValidKeys());
+        detectInvalidKeys(repoConfig, validationResult, MavenRepoConfig.getValidKeys());
         return validationResult;
     }
 
-    private void detectInvalidKeys(Configuration configs, ValidationResult errors, String[] validKeys) {
-        for (Property config : configs.list()) {
+    private void detectInvalidKeys(Configuration config, ValidationResult errors, String[] validKeys) {
+        for (Property property : config.list()) {
             boolean valid = false;
             for (String validKey : validKeys) {
-                if (validKey.equals(config.getKey())) {
+                if (validKey.equals(property.getKey())) {
                     valid = true;
                     break;
                 }
             }
             if (!valid)
-                errors.addError(new ValidationError(String.format("Unsupported key: %s. Valid keys: %s", config.getKey(), Arrays.toString(validKeys))));
+                errors.addError(new ValidationError(String.format("Unsupported key: %s. Valid keys: %s", property.getKey(), Arrays.toString(validKeys))));
         }
     }
 
@@ -95,6 +95,5 @@ public class PluginConfig implements PackageMaterialConfiguration {
         detectInvalidKeys(packageConfig, validationResult, MavenPackageConfig.getValidKeys());
         return validationResult;
     }
-
 
 }

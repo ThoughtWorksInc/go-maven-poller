@@ -6,13 +6,13 @@ import com.thoughtworks.go.plugin.api.material.packagerepository.PackageMaterial
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageMaterialProvider;
 
 @Extension
-public class MaterialImpl implements PackageMaterialProvider {
+public class MavenProvider implements PackageMaterialProvider {
 
     public PackageMaterialConfiguration getConfig() {
         return new PluginConfig();
     }
 
     public PackageMaterialPoller getPoller() {
-        return new PollerImpl();
+        return new MavenPoller();
     }
 }
