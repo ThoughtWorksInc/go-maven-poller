@@ -33,12 +33,15 @@ public class NexusResponseHandler {
         return versions;
     }
 
-    public List<String> getFiles(String artifactSelectionPattern) {
+    public String getPOMfile() {
+        return getFilesMatching(".*\\.pom$").get(0);
+    }
+
+    public List<String> getFilesMatching(String artifactSelectionPattern) {
         if(content == null && !canHandle())
             throw new RuntimeException("Invalid response");
         List<String> files = new ArrayList<String>();
-        Content c = new Content().unmarshal(responseBody);
-        for (ContentItem ci : c.getContentItems()) {
+        for (ContentItem ci : content.getContentItems()) {
             if (ci.getText().matches(artifactSelectionPattern))
                 files.add(ci.getText());
         }

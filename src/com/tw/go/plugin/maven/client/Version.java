@@ -58,6 +58,7 @@ public class Version implements Serializable, Comparable<Version> {
     private String location = null;
     private String groupId = null;
     private char lastDelimiter;
+    private String trackBackUrl = null;
 
     /**
      * Strip the qualifier, which is the first occurrence of a character which
@@ -299,7 +300,7 @@ public class Version implements Serializable, Comparable<Version> {
     }
 
     public PackageRevision toPackageRevision() {
-        PackageRevision packageRevision = new PackageRevision(getRevisionLabel(), lastModified, "NA");
+        PackageRevision packageRevision = new PackageRevision(getRevisionLabel(), lastModified, "NA",null, trackBackUrl);
         packageRevision.addData(LookupParams.PACKAGE_LOCATION, location);
         packageRevision.addData(LookupParams.PACKAGE_VERSION, String.format("%s-%s", version, qualifier));
         return packageRevision;
@@ -337,5 +338,9 @@ public class Version implements Serializable, Comparable<Version> {
 
     public boolean greaterOrEqual(Version version) {
         return this.compareTo(version) >= 0;
+    }
+
+    public void setTrackBackUrl(String trackBackUrl) {
+        this.trackBackUrl = trackBackUrl;
     }
 }

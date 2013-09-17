@@ -1,0 +1,23 @@
+<?xml version="1.0"?><project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>jboss</groupId>
+    <artifactId>jboss-aop</artifactId>
+    <name>JBoss AOP</name>
+    <version>2.0.0.alpha2</version>
+    <description>JBoss AOP</description>
+    <url>http://www.jboss.org/abc/def</url>
+    <licenses>
+        <license>
+            <name>lgpl</name>
+            <url>http://repository.jboss.com/licenses/lgpl.txt</url>
+        </license>
+    </licenses>
+    <organization>
+        <name>JBoss Inc.</name>
+        <url>http://www.jboss.org</url>
+    </organization>
+
+    <distributionManagement>
+        <status>deployed</status>
+    </distributionManagement>
+</project>

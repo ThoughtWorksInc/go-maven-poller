@@ -14,7 +14,7 @@ import java.util.List;
 public class MavenRepositoryClient {
 
     private static final Logger LOGGER = Logger.getLoggerFor(MavenRepositoryClient.class);
-    private final RepositoryConnector repositoryConnector = new RepositoryConnector();
+    private RepositoryConnector repositoryConnector = new RepositoryConnector();
     private LookupParams lookupParams;
 
     public MavenRepositoryClient(LookupParams lookupParams) {
@@ -30,11 +30,26 @@ public class MavenRepositoryClient {
             latest.setArtifactId(lookupParams.getArtifactId());
             latest.setGroupId(lookupParams.getGroupId());
             LOGGER.info("Latest is "+latest.getRevisionLabel());
-            latest.setLocation(getLocation(latest));
+            setLocationAndTrackBack(latest);
         }else{
             LOGGER.warn("getLatest returning null");
         }
         return latest;
+    }
+
+    private void setLocationAndTrackBack(Version version) {
+        try{
+            Files files = getFiles(version);
+            version.setLocation(files.getArtifactLocation());
+            version.setTrackBackUrl(files.getTrackBackUrl());
+        }catch(Exception ex){
+            LOGGER.error("Error getting location for " + version.getRevisionLabel());
+            if(ex.getMessage() != null)
+                LOGGER.error(ex.getMessage());
+            if(ex.getCause() != null && ex.getCause().getMessage() != null){
+                LOGGER.error(ex.getCause().getMessage());
+            }
+        }
     }
 
     Version getLatest(List<Version> allVersions) {
@@ -93,19 +108,25 @@ public class MavenRepositoryClient {
         return versions;
     }
 
-    public String getLocation(Version latest) {
-        String baseurl = repositoryConnector.getFilesUrl(lookupParams, latest.getV_Q());
-        String responseBody = repositoryConnector.makeFilesRequest(lookupParams, latest.getV_Q());
+    Files getFiles(Version version) {
+        String baseurl = repositoryConnector.getFilesUrl(lookupParams, version.getV_Q());
+        String responseBody = repositoryConnector.makeFilesRequest(lookupParams, version.getV_Q());
         LOGGER.debug(responseBody);
         NexusResponseHandler nexusReponseHandler = new NexusResponseHandler(responseBody);
         List<String> files;
+        String pomFile = null;
         if (nexusReponseHandler.canHandle()) {
-            files = nexusReponseHandler.getFiles(lookupParams.getArtifactSelectionPattern());
+            files = nexusReponseHandler.getFilesMatching(lookupParams.getArtifactSelectionPattern());
+            pomFile = nexusReponseHandler.getPOMfile();
         } else {
             HtmlResponseHandler htmlResponseHandler = new HtmlResponseHandler(responseBody);
             LOGGER.warn("Falling back to HTML parsing as the Nexus XML structure was not found");
             files = htmlResponseHandler.getFiles(lookupParams.getArtifactSelectionPattern());
         }
-        return baseurl + files.get(0);
+        return new Files(baseurl, files.get(0), pomFile);
+    }
+
+    void setRepositoryConnector(RepositoryConnector repositoryConnector) {
+        this.repositoryConnector = repositoryConnector;
     }
 }
