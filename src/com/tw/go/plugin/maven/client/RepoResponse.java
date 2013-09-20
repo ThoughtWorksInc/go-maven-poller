@@ -14,4 +14,12 @@ public class RepoResponse {
     public boolean isTextXml() {
         return TEXT_XML.equals(mimeType);
     }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public String getResponseBody() {
+        return responseBody;
+    }
 }

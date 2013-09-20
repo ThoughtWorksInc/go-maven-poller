@@ -1,7 +1,8 @@
 package com.tw.go.plugin.maven.client;
 
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision;
-import com.tw.go.plugin.maven.LookupParams;
+import com.tw.go.plugin.maven.config.LookupParams;
+import com.tw.go.plugin.maven.nexus.NexusResponseHandler;
 import com.tw.go.plugin.util.HttpRepoURL;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;

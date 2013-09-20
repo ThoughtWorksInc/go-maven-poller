@@ -1,11 +1,13 @@
-package com.tw.go.plugin.maven.client;
+package com.tw.go.plugin.maven.nexus;
+
+import com.tw.go.plugin.maven.client.Version;
 
 import javax.xml.bind.annotation.XmlElement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- * @see Content
+ * @see com.tw.go.plugin.maven.nexus.Content
  *
  * @author mrumpf
  */

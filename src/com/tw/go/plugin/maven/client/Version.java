@@ -2,7 +2,7 @@ package com.tw.go.plugin.maven.client;
 
 import com.eekboom.utils.Strings;
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision;
-import com.tw.go.plugin.maven.LookupParams;
+import com.tw.go.plugin.maven.config.LookupParams;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class Version implements Serializable, Comparable<Version> {
         while (strtok.hasMoreTokens()) {
             String digit = strtok.nextToken();
             digitStrings.add(digit);
-            Integer val = null;
+            Integer val;
             try {
                 val = Integer.valueOf(digit);
             } catch (NumberFormatException ex) {
@@ -308,10 +308,6 @@ public class Version implements Serializable, Comparable<Version> {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getLocation() {
-        return location;
     }
 
     public void setArtifactId(String artifactId) {

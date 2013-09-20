@@ -1,6 +1,8 @@
-package com.tw.go.plugin.maven.client;
+package com.tw.go.plugin.maven.nexus;
 
 import com.thoughtworks.go.plugin.api.logging.Logger;
+import com.tw.go.plugin.maven.client.RepoResponse;
+import com.tw.go.plugin.maven.client.Version;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +19,10 @@ public class NexusResponseHandler {
 
     public boolean canHandle() {
         if(!repoResponse.isTextXml()){
-            LOGGER.warn("NexusResponseHandler can't handle: "+repoResponse.mimeType);
+            LOGGER.warn("NexusResponseHandler can't handle: "+repoResponse.getMimeType());
             return false;
         }
-        content = new Content().unmarshal(repoResponse.responseBody);
+        content = new Content().unmarshal(repoResponse.getResponseBody());
         return content != null;
     }
 

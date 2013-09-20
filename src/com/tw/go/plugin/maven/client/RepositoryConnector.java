@@ -1,7 +1,7 @@
 package com.tw.go.plugin.maven.client;
 
 import com.thoughtworks.go.plugin.api.logging.Logger;
-import com.tw.go.plugin.maven.LookupParams;
+import com.tw.go.plugin.maven.config.LookupParams;
 import com.tw.go.plugin.util.HttpRepoURL;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,7 +15,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
@@ -23,6 +22,7 @@ import java.io.IOException;
 
 public class RepositoryConnector {
     private static final Logger LOGGER = Logger.getLoggerFor(RepositoryConnector.class);
+
     public RepositoryConnector() {
     }
 
@@ -86,7 +86,7 @@ public class RepositoryConnector {
                                String url) {
         HttpClient client = createHttpClient(username, password);
 
-        String responseBody = null;
+        String responseBody;
         HttpGet method = null;
         try {
             method = createGetMethod(url);
@@ -96,7 +96,7 @@ public class RepositoryConnector {
             responseBody = EntityUtils.toString(entity);
             String mimeType = ContentType.get(entity).getMimeType();
             return new RepoResponse(responseBody, mimeType);
-        }catch (Exception e) {
+        } catch (Exception e) {
             String message = String.format("Exception while connecting to %s\n%s", url, e);
             LOGGER.error(message);
             throw new RuntimeException(message);
@@ -125,6 +125,7 @@ public class RepositoryConnector {
         }
         return client;
     }
+
     /**
      * Tests access to the specified URL.
      *
@@ -169,7 +170,7 @@ public class RepositoryConnector {
     }
 
     public RepoResponse makeFilesRequest(LookupParams lookupParams, String revision) {
-        String baseurl =  getFilesUrl(lookupParams, revision);
+        String baseurl = getFilesUrl(lookupParams, revision);
         LOGGER.debug("Getting files from " + baseurl);
         return doHttpRequest(lookupParams.getUsername(), lookupParams.getPassword(), baseurl);
     }

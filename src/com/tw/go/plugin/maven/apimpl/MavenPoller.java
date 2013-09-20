@@ -8,7 +8,7 @@ import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfi
 import com.thoughtworks.go.plugin.api.response.Result;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
-import com.tw.go.plugin.maven.LookupParams;
+import com.tw.go.plugin.maven.config.LookupParams;
 import com.tw.go.plugin.maven.client.RepositoryClient;
 import com.tw.go.plugin.maven.client.RepositoryConnector;
 import com.tw.go.plugin.maven.client.Version;

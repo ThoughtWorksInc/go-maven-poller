@@ -1,5 +1,6 @@
 package com.tw.go.plugin.maven.client;
 
+import com.tw.go.plugin.maven.nexus.ContentItem;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

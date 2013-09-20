@@ -7,7 +7,6 @@ import com.thoughtworks.go.plugin.api.material.packagerepository.Property;
 import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfiguration;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
-import com.tw.go.plugin.maven.LookupParams;
 import com.tw.go.plugin.maven.client.Version;
 import com.tw.go.plugin.util.StringUtil;
 
@@ -31,16 +30,8 @@ public class MavenPackageConfig {
         this.artifactIdConfig = packageConfig.get(ARTIFACT_ID);
     }
 
-    public boolean isGroupIdMissing() {
-        return groupIdConfig == null;
-    }
-
     public String getGroupId() {
         return groupIdConfig.getValue();
-    }
-
-    public boolean isArtifactIdMissing() {
-        return artifactIdConfig == null;
     }
 
     public String getArtifactId() {
@@ -59,10 +50,6 @@ public class MavenPackageConfig {
     public String getPollVersionTo() {
         Property to = packageConfig.get(POLL_VERSION_TO);
         return (to == null) ? null : to.getValue();
-    }
-
-    public boolean hasBounds() {
-        return getPollVersionFrom() != null || getPollVersionTo() != null;
     }
 
     public String getArtifactExtn() {

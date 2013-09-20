@@ -1,7 +1,8 @@
 package com.tw.go.plugin.maven.client;
 
 import com.thoughtworks.go.plugin.api.logging.Logger;
-import com.tw.go.plugin.maven.LookupParams;
+import com.tw.go.plugin.maven.config.LookupParams;
+import com.tw.go.plugin.maven.nexus.NexusResponseHandler;
 
 import java.util.Collections;
 import java.util.List;
