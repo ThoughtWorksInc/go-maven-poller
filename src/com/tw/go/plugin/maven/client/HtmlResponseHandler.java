@@ -16,8 +16,11 @@ public class HtmlResponseHandler {
         List<String> versionStrings = new ArrayList<String>();
         List<Version> result = new ArrayList<Version>();
         parseHtml(versionStrings);
-        for (String versionString : versionStrings)
-            result.add(new Version(versionString));
+        for (String versionString : versionStrings) {
+            Version version = new Version(versionString);
+            if(!version.isZeroVersion())
+                result.add(version);
+        }
         return result;
     }
 

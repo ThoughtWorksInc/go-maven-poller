@@ -34,15 +34,15 @@ public class NexusResponseHandlerTest {
         String responseBody = FileUtils.readFileToString(new File("test/fast/jboss-dir.xml"));
         NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.TEXT_XML));
         List<Version> list = nexusResponseHandler.getAllVersions();
-        MavenRepositoryClient mavenRepositoryClient = new MavenRepositoryClient(lookupParams);
+        RepositoryClient repositoryClient = new RepositoryClient(lookupParams);
         RepositoryConnector repoConnector = mock(RepositoryConnector.class);
-        mavenRepositoryClient.setRepositoryConnector(repoConnector);
-        Version result = mavenRepositoryClient.getLatest(list);
+        repositoryClient.setRepositoryConnector(repoConnector);
+        Version result = repositoryClient.getLatest(list);
         String filesUrl = repoUrl + "jboss/jboss-aop/2.0.0.alpha2/";
         when(repoConnector.getFilesUrl(lookupParams, result.getV_Q())).thenReturn(filesUrl);
         String filesResponse = FileUtils.readFileToString(new File("test/fast/jboss-files.xml"));
         when(repoConnector.makeFilesRequest(lookupParams, result.getV_Q())).thenReturn(new RepoResponse(filesResponse, RepoResponse.TEXT_XML));
-        String location = mavenRepositoryClient.getFiles(result).getArtifactLocation();
+        String location = repositoryClient.getFiles(result).getArtifactLocation();
         assertThat(location, is("https://repository.jboss.org/nexus/content/groups/public/jboss/jboss-aop/2.0.0.alpha2/jboss-aop-2.0.0.alpha2.jar"));
     }
 }

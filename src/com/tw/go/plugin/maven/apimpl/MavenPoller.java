@@ -9,7 +9,7 @@ import com.thoughtworks.go.plugin.api.response.Result;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
 import com.tw.go.plugin.maven.LookupParams;
-import com.tw.go.plugin.maven.client.MavenRepositoryClient;
+import com.tw.go.plugin.maven.client.RepositoryClient;
 import com.tw.go.plugin.maven.client.RepositoryConnector;
 import com.tw.go.plugin.maven.client.Version;
 import com.tw.go.plugin.maven.config.MavenPackageConfig;
@@ -99,7 +99,7 @@ public class MavenPoller implements PackageMaterialPoller {
     }
 
     PackageRevision poll(LookupParams params) {
-        Version latest = new MavenRepositoryClient(params).getLatest();
+        Version latest = new RepositoryClient(params).getLatest();
         if (latest == null) return null;
         return latest.toPackageRevision();
     }

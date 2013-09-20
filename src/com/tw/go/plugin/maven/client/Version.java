@@ -343,4 +343,8 @@ public class Version implements Serializable, Comparable<Version> {
     public void setTrackBackUrl(String trackBackUrl) {
         this.trackBackUrl = trackBackUrl;
     }
+
+    public boolean isZeroVersion(){
+        return ZERO_VERSION.equals(this.version);
+    }
 }

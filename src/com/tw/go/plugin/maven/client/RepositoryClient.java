@@ -6,18 +6,13 @@ import com.tw.go.plugin.maven.LookupParams;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * This class handles all communication with the Maven repository.
- *
- * @author mrumpf (of the original version at: https://github.com/mrumpf/repoclient-plugin)
- */
-public class MavenRepositoryClient {
+public class RepositoryClient {
 
-    private static final Logger LOGGER = Logger.getLoggerFor(MavenRepositoryClient.class);
+    private static final Logger LOGGER = Logger.getLoggerFor(RepositoryClient.class);
     private RepositoryConnector repositoryConnector = new RepositoryConnector();
     private LookupParams lookupParams;
 
-    public MavenRepositoryClient(LookupParams lookupParams) {
+    public RepositoryClient(LookupParams lookupParams) {
         this.lookupParams = lookupParams;
     }
 
