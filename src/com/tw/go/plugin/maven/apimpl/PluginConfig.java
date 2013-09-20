@@ -6,6 +6,7 @@ import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
 import com.tw.go.plugin.maven.config.MavenPackageConfig;
 import com.tw.go.plugin.maven.config.MavenRepoConfig;
+import com.tw.go.plugin.util.HttpRepoURL;
 import com.tw.go.plugin.util.RepoUrl;
 
 import java.util.Arrays;
@@ -69,7 +70,15 @@ public class PluginConfig implements PackageMaterialConfiguration {
             validationResult.addError(new ValidationError(RepoUrl.REPO_URL, message));
             return validationResult;
         }
-        mavenRepoConfig.getRepoUrl().validate(validationResult);
+        HttpRepoURL repoUrl = null;
+        try {
+            repoUrl = mavenRepoConfig.getRepoUrl();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            validationResult.addError(new ValidationError(RepoUrl.REPO_URL, e.getMessage()));
+        }
+        if(repoUrl != null)
+            repoUrl.validate(validationResult);
         detectInvalidKeys(repoConfig, validationResult, MavenRepoConfig.getValidKeys());
         return validationResult;
     }

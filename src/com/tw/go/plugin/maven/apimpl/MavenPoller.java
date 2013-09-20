@@ -57,9 +57,9 @@ public class MavenPoller implements PackageMaterialPoller {
 
     @Override
     public Result checkConnectionToRepository(RepositoryConfiguration repoConfig) {
-        RepoUrl repoUrl = new MavenRepoConfig(repoConfig).getRepoUrl();
         Result result = new Result();
         try {
+            RepoUrl repoUrl = new MavenRepoConfig(repoConfig).getRepoUrl();
             if (!new RepositoryConnector().testConnection(repoUrl.getUrlStr(), repoUrl.getCredentials().getUser(), repoUrl.getCredentials().getPassword())) {
                 result.withErrorMessages("Did not get HTTP Status 200 response");
             }

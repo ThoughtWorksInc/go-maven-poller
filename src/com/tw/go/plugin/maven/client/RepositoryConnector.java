@@ -108,11 +108,10 @@ public class RepositoryConnector {
     }
 
     HttpGet createGetMethod(String url) {
-        HttpGet method = new HttpGet(url);//TODO:authentication
+        HttpGet method = new HttpGet(url);
         method.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 10 * 1000);
         method.setHeader("Accept", "application/xml");
         return method;
-        //TODO: seems redirects followed automatically - verify
     }
 
     HttpClient createHttpClient(String username, String password) {
@@ -177,5 +176,8 @@ public class RepositoryConnector {
 
     public String getFilesUrl(LookupParams lookupParams, String revision) {
         return concatUrl(lookupParams.getRepoUrlStr(), lookupParams.getGroupId(), lookupParams.getArtifactId(), revision);
+    }
+    public String getFilesUrlWithBasicAuth(LookupParams lookupParams, String revision) {
+        return concatUrl(lookupParams.getRepoUrlStrWithBasicAuth(), lookupParams.getGroupId(), lookupParams.getArtifactId(), revision);
     }
 }

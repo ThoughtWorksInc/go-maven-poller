@@ -2,6 +2,7 @@ package com.tw.go.plugin.maven.config;
 
 import com.thoughtworks.go.plugin.api.material.packagerepository.Property;
 import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfiguration;
+import com.tw.go.plugin.util.HttpRepoURL;
 import com.tw.go.plugin.util.RepoUrl;
 
 public class MavenRepoConfig {
@@ -18,11 +19,13 @@ public class MavenRepoConfig {
         return packageConfiguration.getValue();
     }
 
-    public RepoUrl getRepoUrl() {
-        return RepoUrl.create(
+    public HttpRepoURL getRepoUrl() {
+        RepoUrl repoUrl = RepoUrl.create(
                 withTrailingSlash(repoUrlProperty.getValue()),
                 stringValueOf(repoConfig.get(RepoUrl.USERNAME)),
                 stringValueOf(repoConfig.get(RepoUrl.PASSWORD)));
+        if(!repoUrl.isHttp()) throw new RuntimeException("Only http/https urls are supported");
+        return (HttpRepoURL) repoUrl;
     }
 
     private String withTrailingSlash(String repoUrl) {
@@ -31,7 +34,7 @@ public class MavenRepoConfig {
     }
 
     public boolean isRepoUrlMissing() {
-        return repoUrlProperty == null || repoUrlProperty.getValue() == null;
+        return repoUrlProperty == null || repoUrlProperty.getValue() == null || repoUrlProperty.getValue().trim().isEmpty();
     }
 
     public static String[] getValidKeys() {

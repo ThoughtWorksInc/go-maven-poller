@@ -105,7 +105,6 @@ public class RepositoryClient {
     }
 
     Files getFiles(Version version) {
-        String baseurl = repositoryConnector.getFilesUrl(lookupParams, version.getV_Q());
         RepoResponse repoResponse = repositoryConnector.makeFilesRequest(lookupParams, version.getV_Q());
         LOGGER.debug(repoResponse.responseBody);
         NexusResponseHandler nexusReponseHandler = new NexusResponseHandler(repoResponse);
@@ -119,7 +118,8 @@ public class RepositoryClient {
             LOGGER.warn("Falling back to HTML parsing as the Nexus XML structure was not found");
             files = htmlResponseHandler.getFiles(lookupParams.getArtifactSelectionPattern());
         }
-        return new Files(baseurl, files.get(0), pomFile);
+        return new Files(repositoryConnector.getFilesUrlWithBasicAuth(lookupParams, version.getV_Q()),
+                files.get(0), pomFile);
     }
 
     void setRepositoryConnector(RepositoryConnector repositoryConnector) {

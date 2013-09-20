@@ -28,9 +28,10 @@ public class NexusResponseHandlerTest {
 
     @Test
     public void shouldReportCorrectLocationOfJarFile() throws IOException {
-        String repoUrl = "https://repository.jboss.org/nexus/content/groups/public/";
+        String repoUrlStr = "https://repository.jboss.org/nexus/content/groups/public/";
+        HttpRepoURL httpRepoURL = new HttpRepoURL(repoUrlStr, "user", "pass");
         LookupParams lookupParams = new LookupParams(
-                new HttpRepoURL(repoUrl, null, null),
+                httpRepoURL,
                 "jboss", "jboss-aop", "jar", null, null, null);
         String responseBody = FileUtils.readFileToString(new File("test/fast/jboss-dir.xml"));
         NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.TEXT_XML));
@@ -39,11 +40,11 @@ public class NexusResponseHandlerTest {
         RepositoryConnector repoConnector = mock(RepositoryConnector.class);
         repositoryClient.setRepositoryConnector(repoConnector);
         Version result = repositoryClient.getLatest(list);
-        String filesUrl = repoUrl + "jboss/jboss-aop/2.0.0.alpha2/";
-        when(repoConnector.getFilesUrl(lookupParams, result.getV_Q())).thenReturn(filesUrl);
+        String filesUrl = httpRepoURL.getUrlWithBasicAuth() + "jboss/jboss-aop/2.0.0.alpha2/";
+        when(repoConnector.getFilesUrlWithBasicAuth(lookupParams, result.getV_Q())).thenReturn(filesUrl);
         String filesResponse = FileUtils.readFileToString(new File("test/fast/jboss-files.xml"));
         when(repoConnector.makeFilesRequest(lookupParams, result.getV_Q())).thenReturn(new RepoResponse(filesResponse, RepoResponse.TEXT_XML));
         String location = repositoryClient.getFiles(result).getArtifactLocation();
-        assertThat(location, is("https://repository.jboss.org/nexus/content/groups/public/jboss/jboss-aop/2.0.0.alpha2/jboss-aop-2.0.0.alpha2.jar"));
+        assertThat(location, is("https://user:pass@repository.jboss.org/nexus/content/groups/public/jboss/jboss-aop/2.0.0.alpha2/jboss-aop-2.0.0.alpha2.jar"));
     }
 }

@@ -2,6 +2,7 @@ package com.tw.go.plugin.maven.config;
 
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision;
 import com.tw.go.plugin.maven.client.Version;
+import com.tw.go.plugin.util.HttpRepoURL;
 import com.tw.go.plugin.util.RepoUrl;
 
 
@@ -10,7 +11,7 @@ public class LookupParams {
     public static final String PACKAGE_VERSION = "VERSION";
     public static final String ANY = "ANY";
     private final String groupId;
-    private final RepoUrl repoUrl;
+    private final HttpRepoURL repoUrl;
     private final String artifactId;
     private final String artifactExtn;
 
@@ -18,7 +19,7 @@ public class LookupParams {
     private String pollVersionTo = ANY;
     private PackageRevision lastKnownVersion = null;
 
-    public LookupParams(RepoUrl repoUrl, String groupId, String artifactId, String artifactExtn, String pollVersionFrom, String pollVersionTo, PackageRevision previouslyKnownRevision) {
+    public LookupParams(HttpRepoURL repoUrl, String groupId, String artifactId, String artifactExtn, String pollVersionFrom, String pollVersionTo, PackageRevision previouslyKnownRevision) {
         this.repoUrl = repoUrl;
         this.groupId = groupId;
         this.artifactId = artifactId;
@@ -75,5 +76,9 @@ public class LookupParams {
 
     public Version lowerBound() {
         return new Version(pollVersionFrom);
+    }
+
+    public String getRepoUrlStrWithBasicAuth() {
+        return repoUrl.getUrlWithBasicAuth();
     }
 }
