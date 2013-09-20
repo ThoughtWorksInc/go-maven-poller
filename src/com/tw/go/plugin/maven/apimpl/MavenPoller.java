@@ -66,6 +66,7 @@ public class MavenPoller implements PackageMaterialPoller {
         } catch (Exception e) {
             result.withErrorMessages(e.getMessage());
         }
+        LOGGER.info(result.getMessagesForDisplay());
         return result;
     }
 

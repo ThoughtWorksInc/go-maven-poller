@@ -6,10 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HtmlResponseHandler {
-    private final String responseBody;
+    private final RepoResponse repoResponse;
 
-    public HtmlResponseHandler(String responseBody) {
-        this.responseBody = responseBody;
+    public HtmlResponseHandler(RepoResponse repoResponse) {
+        this.repoResponse = repoResponse;
     }
 
     public List<Version> getAllVersions() {
@@ -25,8 +25,8 @@ public class HtmlResponseHandler {
             "href=[\n\r ]*\"([^\"]*)\"", Pattern.CASE_INSENSITIVE);
 
     private void parseHtml(List<String> matches) {
-        if (responseBody != null) {
-            Matcher matcher = HREF_URLS.matcher(responseBody);
+        if (repoResponse != null) {
+            Matcher matcher = HREF_URLS.matcher(repoResponse.responseBody);
             while (matcher.find()) {
                 String match = matcher.group(1);
                 // remove trailing slash

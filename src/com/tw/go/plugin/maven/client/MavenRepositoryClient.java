@@ -22,9 +22,9 @@ public class MavenRepositoryClient {
     }
 
     public Version getLatest() {
-        String responseBody = repositoryConnector.makeAllVersionsRequest(lookupParams);
-        LOGGER.debug(responseBody);
-        List<Version> allVersions = getAllVersions(responseBody);
+        RepoResponse repoResponse = repositoryConnector.makeAllVersionsRequest(lookupParams);
+        LOGGER.debug(repoResponse.responseBody);
+        List<Version> allVersions = getAllVersions(repoResponse);
         Version latest = getLatest(allVersions);
         if(latest != null){
             latest.setArtifactId(lookupParams.getArtifactId());
@@ -95,14 +95,14 @@ public class MavenRepositoryClient {
         return latest.notNewerThan(lastKnownVersion);
     }
 
-    private List<Version> getAllVersions(String responseBody) {
+    private List<Version> getAllVersions(RepoResponse repoResponse) {
         List<Version> versions;
-        NexusResponseHandler nexusReponseHandler = new NexusResponseHandler(responseBody);
+        NexusResponseHandler nexusReponseHandler = new NexusResponseHandler(repoResponse);
         if (nexusReponseHandler.canHandle()) {
             versions = nexusReponseHandler.getAllVersions();
         } else {
             LOGGER.warn("Falling back to HTML parsing as the Nexus XML structure was not found");
-            HtmlResponseHandler htmlResponseHandler = new HtmlResponseHandler(responseBody);
+            HtmlResponseHandler htmlResponseHandler = new HtmlResponseHandler(repoResponse);
             versions = htmlResponseHandler.getAllVersions();
         }
         return versions;
@@ -110,16 +110,16 @@ public class MavenRepositoryClient {
 
     Files getFiles(Version version) {
         String baseurl = repositoryConnector.getFilesUrl(lookupParams, version.getV_Q());
-        String responseBody = repositoryConnector.makeFilesRequest(lookupParams, version.getV_Q());
-        LOGGER.debug(responseBody);
-        NexusResponseHandler nexusReponseHandler = new NexusResponseHandler(responseBody);
+        RepoResponse repoResponse = repositoryConnector.makeFilesRequest(lookupParams, version.getV_Q());
+        LOGGER.debug(repoResponse.responseBody);
+        NexusResponseHandler nexusReponseHandler = new NexusResponseHandler(repoResponse);
         List<String> files;
         String pomFile = null;
         if (nexusReponseHandler.canHandle()) {
             files = nexusReponseHandler.getFilesMatching(lookupParams.getArtifactSelectionPattern());
             pomFile = nexusReponseHandler.getPOMfile();
         } else {
-            HtmlResponseHandler htmlResponseHandler = new HtmlResponseHandler(responseBody);
+            HtmlResponseHandler htmlResponseHandler = new HtmlResponseHandler(repoResponse);
             LOGGER.warn("Falling back to HTML parsing as the Nexus XML structure was not found");
             files = htmlResponseHandler.getFiles(lookupParams.getArtifactSelectionPattern());
         }

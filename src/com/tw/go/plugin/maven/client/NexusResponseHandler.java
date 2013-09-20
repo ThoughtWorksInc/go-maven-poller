@@ -8,21 +8,27 @@ import java.util.List;
 public class NexusResponseHandler {
     private static final Logger LOGGER = Logger.getLoggerFor(NexusResponseHandler.class);
     private static final String FILES_TO_IGNORE = "^maven-metadata.*$|^archetype-catalog.*$|^.*sha1$|^.*md5$|^.*pom$";
-    private final String responseBody;
+    private final RepoResponse repoResponse;
     private Content content;
 
-    public NexusResponseHandler(String responseBody) {
-        this.responseBody = responseBody;
+    public NexusResponseHandler(RepoResponse repoResponse) {
+        this.repoResponse = repoResponse;
     }
 
     public boolean canHandle() {
-        content = new Content().unmarshal(responseBody);
+        if(!repoResponse.isTextXml()){
+            LOGGER.warn("NexusResponseHandler can't handle: "+repoResponse.mimeType);
+            return false;
+        }
+        content = new Content().unmarshal(repoResponse.responseBody);
         return content != null;
     }
 
     public List<Version> getAllVersions() {
-        if(content == null && !canHandle())
+        if(content == null && !canHandle()){
+            LOGGER.warn("NexusResponseHandler getAllVersions invalidContent");
             throw new RuntimeException("Invalid response");
+        }
         List<Version> versions = new ArrayList<Version>();
         for (ContentItem ci : content.getContentItems()) {
             if (!ci.getText().matches(FILES_TO_IGNORE)) {
