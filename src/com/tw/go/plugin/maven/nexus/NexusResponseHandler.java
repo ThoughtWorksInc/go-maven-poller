@@ -41,7 +41,7 @@ public class NexusResponseHandler {
         return versions;
     }
 
-    public String getPOMfile() {
+    public String getPOMurl() {
         return getFilesMatching(".*\\.pom$").get(0);
     }
 

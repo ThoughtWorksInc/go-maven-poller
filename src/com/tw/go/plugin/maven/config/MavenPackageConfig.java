@@ -16,7 +16,7 @@ public class MavenPackageConfig {
     private static final Logger LOGGER = Logger.getLoggerFor(MavenPackageConfig.class);
     public static final String GROUP_ID = "GROUP_ID";
     public static final String ARTIFACT_ID = "ARTIFACT_ID";
-    public static final String ARTIFACT_EXTN = "ARTIFACT_EXTN";
+    public static final String PACKAGING = "PACKAGING";
     public static final String POLL_VERSION_FROM = "POLL_VERSION_FROM";
     public static final String POLL_VERSION_TO = "POLL_VERSION_TO";
     public static final String INVALID_BOUNDS_MESSAGE = "Lower Bound cannot be >= Upper Bound";
@@ -39,7 +39,7 @@ public class MavenPackageConfig {
     }
 
     public static String[] getValidKeys() {
-        return new String[]{GROUP_ID, ARTIFACT_ID, ARTIFACT_EXTN, POLL_VERSION_FROM, POLL_VERSION_TO};
+        return new String[]{GROUP_ID, ARTIFACT_ID, PACKAGING, POLL_VERSION_FROM, POLL_VERSION_TO};
     }
 
     public String getPollVersionFrom() {
@@ -52,15 +52,15 @@ public class MavenPackageConfig {
         return (to == null) ? null : to.getValue();
     }
 
-    public String getArtifactExtn() {
-        Property extn = packageConfig.get(ARTIFACT_EXTN);
+    public String getPackaging() {
+        Property extn = packageConfig.get(PACKAGING);
         return (extn == null) ? null : extn.getValue();
     }
 
     public LookupParams getLookupParams(RepositoryConfiguration repoConfig, PackageRevision previouslyKnownRevision) {
         return new LookupParams(
                 new MavenRepoConfig(repoConfig).getRepoUrl(),
-                getGroupId(), getArtifactId(), getArtifactExtn(),
+                getGroupId(), getArtifactId(), getPackaging(),
                 getPollVersionFrom(),
                 getPollVersionTo(),
                 previouslyKnownRevision);

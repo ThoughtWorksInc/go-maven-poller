@@ -301,7 +301,7 @@ public class Version implements Serializable, Comparable<Version> {
     }
 
     public PackageRevision toPackageRevision() {
-        PackageRevision packageRevision = new PackageRevision(getRevisionLabel(), lastModified, "NA",null, trackBackUrl);
+        PackageRevision packageRevision = new PackageRevision(getRevisionLabel(), lastModified, null,null, trackBackUrl);
         packageRevision.addData(LookupParams.PACKAGE_LOCATION, location);
         packageRevision.addData(LookupParams.PACKAGE_VERSION, getV_Q());
         if(errorMessage != null)

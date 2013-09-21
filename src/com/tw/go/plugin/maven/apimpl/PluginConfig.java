@@ -32,8 +32,8 @@ public class PluginConfig implements PackageMaterialConfiguration {
     public static final Property PKG_CONFIG_ARTIFACT_ID =
             new Property(ARTIFACT_ID).with(DISPLAY_NAME, "Artifact Id").with(DISPLAY_ORDER, 1);
 
-    public static final Property PKG_CONFIG_ARTIFACT_EXTN =
-            new Property(ARTIFACT_EXTN).with(DISPLAY_NAME, "Artifact Extension (jar,war,ear...)").with(DISPLAY_ORDER, 2).with(PART_OF_IDENTITY, true);
+    public static final Property PKG_CONFIG_PACKAGING =
+            new Property(PACKAGING).with(DISPLAY_NAME, "Packaging (jar,war,ear...)").with(DISPLAY_ORDER, 2).with(PART_OF_IDENTITY, true);
 
     public static final Property PKG_CONFIG_POLL_VERSION_FROM =
             new Property(POLL_VERSION_FROM).with(REQUIRED, false).with(DISPLAY_NAME, "Version to poll >=").with(DISPLAY_ORDER, 3).with(PART_OF_IDENTITY, true);
@@ -54,7 +54,7 @@ public class PluginConfig implements PackageMaterialConfiguration {
         PackageConfiguration packageConfig = new PackageConfiguration();
         packageConfig.add(PKG_CONFIG_GROUP_ID);
         packageConfig.add(PKG_CONFIG_ARTIFACT_ID);
-        packageConfig.add(PKG_CONFIG_ARTIFACT_EXTN);
+        packageConfig.add(PKG_CONFIG_PACKAGING);
         packageConfig.add(PKG_CONFIG_POLL_VERSION_FROM);
         packageConfig.add(PKG_CONFIG_POLL_VERSION_TO);
         return packageConfig;

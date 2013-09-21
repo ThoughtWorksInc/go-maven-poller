@@ -2,12 +2,12 @@
 <go-plugin id="maven" version="1">
 <about>
     <name>Maven Nexus plugin</name>
-    <version>1.0.0</version>
+    <version>0.1.0</version>
     <target-go-version>13.3</target-go-version>
-    <description>Polls a Nexus repository that has directory browsing enabled</description>
+    <description>Polls a Nexus repository</description>
     <vendor>
         <name>ThoughtWorks Go Team</name>
-        <url>www.thoughtworks.com</url>
+        <url>https://github.com/ThoughtWorksInc/go-maven-poller/blob/master/README.md</url>
     </vendor>
 </about>
 </go-plugin>

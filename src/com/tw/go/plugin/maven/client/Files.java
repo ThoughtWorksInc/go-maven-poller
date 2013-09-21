@@ -1,25 +1,29 @@
 package com.tw.go.plugin.maven.client;
 
+import com.tw.go.plugin.maven.config.LookupParams;
 import maven.Model;
 import org.xml.sax.InputSource;
 
-import java.io.IOException;
-import java.net.URL;
+import java.io.StringReader;
 
 public class Files {
-    private final String baseurl;
+    private final String baseUrlWithAuth;
     private final String artifactLocation;
-    private final String pomFile;
+    private final String pomUrl;
+    private final LookupParams lookupParams;
     private Model model;
 
-    public Files(String baseurl, String artifactLocation, String pomFile) {
-        this.baseurl = baseurl;
+    public Files(String baseUrlWithAuth, String artifactLocation, String pomUrl, LookupParams lookupParams) {
+        this.baseUrlWithAuth = baseUrlWithAuth;
         this.artifactLocation = artifactLocation;
-        this.pomFile = pomFile;
+        this.pomUrl = pomUrl;
+        this.lookupParams = lookupParams;
     }
 
+
+
     public String getArtifactLocation() {
-        return baseurl + artifactLocation;
+        return baseUrlWithAuth + artifactLocation;
     }
 
     public String getTrackBackUrl() {
@@ -28,10 +32,8 @@ public class Files {
     }
 
     private void getModel() {
-        try {
-            model = Model.unmarshal(new InputSource(new URL(baseurl + pomFile).openStream()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        RepoResponse repoResponse = new RepositoryConnector().doHttpRequest(lookupParams.getUsername(), lookupParams.getPassword(),
+                pomUrl);
+        model = Model.unmarshal(new InputSource(new StringReader(repoResponse.getResponseBody())));
     }
 }

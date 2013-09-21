@@ -113,14 +113,18 @@ public class RepositoryClient {
         String pomFile = null;
         if (nexusReponseHandler.canHandle()) {
             files = nexusReponseHandler.getFilesMatching(lookupParams.getArtifactSelectionPattern());
-            pomFile = nexusReponseHandler.getPOMfile();
+            pomFile = nexusReponseHandler.getPOMurl();
+            LOGGER.info("pomFile is "+ pomFile);
         } else {
             HtmlResponseHandler htmlResponseHandler = new HtmlResponseHandler(repoResponse);
             LOGGER.warn("Falling back to HTML parsing as the Nexus XML structure was not found");
             files = htmlResponseHandler.getFiles(lookupParams.getArtifactSelectionPattern());
         }
-        return new Files(repositoryConnector.getFilesUrlWithBasicAuth(lookupParams, version.getV_Q()),
-                files.get(0), pomFile);
+        return new Files(
+                repositoryConnector.getFilesUrlWithBasicAuth(lookupParams, version.getV_Q()),
+                files.get(0),
+                repositoryConnector.getFilesUrl(lookupParams, version.getV_Q()) + pomFile,
+                lookupParams);
     }
 
     void setRepositoryConnector(RepositoryConnector repositoryConnector) {

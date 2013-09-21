@@ -26,28 +26,11 @@ public class RepositoryConnector {
     public RepositoryConnector() {
     }
 
-    /**
-     * Creates a full URL out of several components.
-     *
-     * @param baseurl    the base URL
-     * @param groupid    the group id, where dots will be substituted by slashes
-     * @param artifactid the artifact id
-     * @return the concatenated URL with a slash at the end
-     */
     public String concatUrl(String baseurl, String groupid,
                             String artifactid) {
         return concatUrl(baseurl, groupid, artifactid, "");
     }
 
-    /**
-     * Creates a full URL out of several components.
-     *
-     * @param baseurl    the base URL
-     * @param groupid    the group id, where dots will be substituted by slashes
-     * @param artifactid the artifact id
-     * @param version    the version number
-     * @return the concatenated URL with a slash at the end
-     */
     public String concatUrl(String baseurl, String groupid,
                             String artifactid, String version) {
         StringBuilder sb = new StringBuilder();
@@ -91,7 +74,7 @@ public class RepositoryConnector {
         try {
             method = createGetMethod(url);
             HttpResponse response = client.execute(method);
-            if(response.getStatusLine().getStatusCode() != 200){
+            if(response.getStatusLine().getStatusCode() != HttpStatus.SC_OK){
                 throw new RuntimeException(String.format("HTTP %s, %s",
                         response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase()));
             }
@@ -128,15 +111,6 @@ public class RepositoryConnector {
         return client;
     }
 
-    /**
-     * Tests access to the specified URL.
-     *
-     * @param url      the URL to access
-     * @param username the username to use. Might be null if no credentials are
-     *                 necessary
-     * @param password the password to use
-     * @return true when connection was successful, false otherwise
-     */
     public boolean testConnection(String url, String username,
                                   String password) {
 

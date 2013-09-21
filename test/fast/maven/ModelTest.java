@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.xml.sax.InputSource;
 
 import java.io.FileInputStream;
+import java.net.URL;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
