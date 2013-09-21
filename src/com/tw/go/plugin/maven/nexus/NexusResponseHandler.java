@@ -18,7 +18,7 @@ public class NexusResponseHandler {
     }
 
     public boolean canHandle() {
-        if(!repoResponse.isTextXml()){
+        if(!repoResponse.isXml()){
             LOGGER.warn("NexusResponseHandler can't handle: "+repoResponse.getMimeType());
             return false;
         }
@@ -29,7 +29,7 @@ public class NexusResponseHandler {
     public List<Version> getAllVersions() {
         if(content == null && !canHandle()){
             LOGGER.warn("NexusResponseHandler getAllVersions invalidContent");
-            throw new RuntimeException("Invalid response");
+            throw new RuntimeException("getAllVersions: Invalid response");
         }
         List<Version> versions = new ArrayList<Version>();
         for (ContentItem ci : content.getContentItems()) {
@@ -47,7 +47,7 @@ public class NexusResponseHandler {
 
     public List<String> getFilesMatching(String artifactSelectionPattern) {
         if(content == null && !canHandle())
-            throw new RuntimeException("Invalid response");
+            throw new RuntimeException("getFilesMatching: Invalid response");
         List<String> files = new ArrayList<String>();
         for (ContentItem ci : content.getContentItems()) {
             if (ci.getText().matches(artifactSelectionPattern))

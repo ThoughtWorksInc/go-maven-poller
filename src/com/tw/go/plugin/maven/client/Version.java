@@ -59,6 +59,7 @@ public class Version implements Serializable, Comparable<Version> {
     private String groupId = null;
     private char lastDelimiter;
     private String trackBackUrl = null;
+    private String errorMessage;
 
     /**
      * Strip the qualifier, which is the first occurrence of a character which
@@ -302,7 +303,9 @@ public class Version implements Serializable, Comparable<Version> {
     public PackageRevision toPackageRevision() {
         PackageRevision packageRevision = new PackageRevision(getRevisionLabel(), lastModified, "NA",null, trackBackUrl);
         packageRevision.addData(LookupParams.PACKAGE_LOCATION, location);
-        packageRevision.addData(LookupParams.PACKAGE_VERSION, String.format("%s-%s", version, qualifier));
+        packageRevision.addData(LookupParams.PACKAGE_VERSION, getV_Q());
+        if(errorMessage != null)
+            packageRevision.addData("ERRORMSG", errorMessage);
         return packageRevision;
     }
 
@@ -342,5 +345,9 @@ public class Version implements Serializable, Comparable<Version> {
 
     public boolean isZeroVersion(){
         return ZERO_VERSION.equals(this.version);
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

@@ -99,7 +99,7 @@ public class ContentItem {
         try {
             result.setLastModified(MAVEN_DATE_FORMAT.parse(lastModified));
         } catch (ParseException e) {
-            throw new RuntimeException(String.format("Error parsing date %s for resource %s", lastModified, resourceURI));
+            throw new RuntimeException(String.format("Error parsing date %s for resource %s", lastModified, resourceURI), e);
         }
         return result;
     }

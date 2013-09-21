@@ -45,6 +45,7 @@ public class RepositoryClient {
             if(ex.getCause() != null && ex.getCause().getMessage() != null){
                 LOGGER.error(ex.getCause().getMessage());
             }
+            version.setErrorMessage("Plugin could not determine location/trackback. Please see plugin log for details.");
         }
     }
 

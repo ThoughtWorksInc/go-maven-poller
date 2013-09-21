@@ -77,7 +77,7 @@ public class MavenPoller implements PackageMaterialPoller {
             return repoCheckResult;
         PackageRevision packageRevision = getLatestRevision(packageConfig, repoConfig);
         Result result = new Result();
-        if (packageRevision != null) {
+        if (packageRevision != null && packageRevision.getDataFor(LookupParams.PACKAGE_LOCATION)!=null) {
             result.withSuccessMessages("Found " + packageRevision.getRevision());
         } else {
             result.withErrorMessages("Could not find package");

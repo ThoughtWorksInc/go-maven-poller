@@ -90,8 +90,11 @@ public class RepositoryConnector {
         HttpGet method = null;
         try {
             method = createGetMethod(url);
-
             HttpResponse response = client.execute(method);
+            if(response.getStatusLine().getStatusCode() != 200){
+                throw new RuntimeException(String.format("HTTP %s, %s",
+                        response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase()));
+            }
             HttpEntity entity = response.getEntity();
             responseBody = EntityUtils.toString(entity);
             String mimeType = ContentType.get(entity).getMimeType();
@@ -99,7 +102,7 @@ public class RepositoryConnector {
         } catch (Exception e) {
             String message = String.format("Exception while connecting to %s\n%s", url, e);
             LOGGER.error(message);
-            throw new RuntimeException(message);
+            throw new RuntimeException(message, e);
         } finally {
             if (method != null) {
                 method.releaseConnection();
@@ -146,14 +149,10 @@ public class RepositoryConnector {
 
             HttpResponse response = client.execute(method);
             result = (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
-        } catch (IOException ioe) {
-            String message = String.format("Unable to connect to %s\n%s", url, ioe.getMessage());
-            LOGGER.error(message);
-            throw new RuntimeException(message);
         } catch (Exception e) {
-            String message = String.format("Unknown exception while connecting to %s\n%s", url, e);
+            String message = String.format("Exception while connecting to %s\n%s", url, e.getMessage());
             LOGGER.error(message);
-            throw new RuntimeException(message);
+            throw new RuntimeException(message, e);
         } finally {
             if (method != null) {
                 method.releaseConnection();

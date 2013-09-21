@@ -22,7 +22,7 @@ public class NexusResponseHandlerTest {
                 new HttpRepoURL("http://nexus-server:8081/nexus/content/repositories/releases/", null, null),
                 "com.thoughtworks.studios.go", "book_inventory", "war", null, null, null);
         String responseBody = FileUtils.readFileToString(new File("test/fast/nexus-files-response.xml"));
-        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.TEXT_XML));
+        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.APPLICATION_XML));
         assertThat(nexusResponseHandler.getFilesMatching(lookupParams.getArtifactSelectionPattern()).get(0), is("book_inventory-1.0.0-18.war"));
     }
 
@@ -34,7 +34,7 @@ public class NexusResponseHandlerTest {
                 httpRepoURL,
                 "jboss", "jboss-aop", "jar", null, null, null);
         String responseBody = FileUtils.readFileToString(new File("test/fast/jboss-dir.xml"));
-        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.TEXT_XML));
+        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.APPLICATION_XML));
         List<Version> list = nexusResponseHandler.getAllVersions();
         RepositoryClient repositoryClient = new RepositoryClient(lookupParams);
         RepositoryConnector repoConnector = mock(RepositoryConnector.class);
@@ -43,7 +43,7 @@ public class NexusResponseHandlerTest {
         String filesUrl = httpRepoURL.getUrlWithBasicAuth() + "jboss/jboss-aop/2.0.0.alpha2/";
         when(repoConnector.getFilesUrlWithBasicAuth(lookupParams, result.getV_Q())).thenReturn(filesUrl);
         String filesResponse = FileUtils.readFileToString(new File("test/fast/jboss-files.xml"));
-        when(repoConnector.makeFilesRequest(lookupParams, result.getV_Q())).thenReturn(new RepoResponse(filesResponse, RepoResponse.TEXT_XML));
+        when(repoConnector.makeFilesRequest(lookupParams, result.getV_Q())).thenReturn(new RepoResponse(filesResponse, RepoResponse.APPLICATION_XML));
         String location = repositoryClient.getFiles(result).getArtifactLocation();
         assertThat(location, is("https://user:pass@repository.jboss.org/nexus/content/groups/public/jboss/jboss-aop/2.0.0.alpha2/jboss-aop-2.0.0.alpha2.jar"));
     }

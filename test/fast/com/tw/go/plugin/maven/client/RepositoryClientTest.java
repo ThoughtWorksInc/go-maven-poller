@@ -25,7 +25,7 @@ public class RepositoryClientTest {
                 "com.thoughtworks.studios.go", "book_inventory", "war", null, null, null);
         RepositoryClient client = new RepositoryClient(lookupParams);
         String responseBody = FileUtils.readFileToString(new File("test/fast/nexus-response.xml"));
-        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.TEXT_XML));
+        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.APPLICATION_XML));
         Version result = client.getLatest(nexusResponseHandler.getAllVersions());
         assertThat(result.getVersion(), is("1.0.0"));
         assertThat(result.getQualifier(), is("18"));
@@ -40,7 +40,7 @@ public class RepositoryClientTest {
                 "com.thoughtworks.studios.go", "book_inventory", "war", null, null, previouslyKnownRevision);
         RepositoryClient client = new RepositoryClient(lookupParams);
         String responseBody = FileUtils.readFileToString(new File("test/fast/nexus-response.xml"));
-        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.TEXT_XML));
+        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.APPLICATION_XML));
         assertNull(client.getLatest(nexusResponseHandler.getAllVersions()));
     }
 
@@ -53,7 +53,7 @@ public class RepositoryClientTest {
                 "com.thoughtworks.studios.go", "book_inventory", "war", null, null, previouslyKnownRevision);
         RepositoryClient client = new RepositoryClient(lookupParams);
         String responseBody = FileUtils.readFileToString(new File("test/fast/nexus-response.xml"));
-        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.TEXT_XML));
+        NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.APPLICATION_XML));
         Version result = client.getLatest(nexusResponseHandler.getAllVersions());
         assertThat(result.getVersion(), is("1.0.0"));
         assertThat(result.getQualifier(), is("18"));
