@@ -13,13 +13,15 @@ Just drop go-maven-poller.jar into plugins/external directory and restart Go. Mo
 
 Repository definition
 ---------------------
-![Add a Maven (Nexus) repository][1]
 Repo URL must be a valid http or https URL. Basic authentication (user:password@host/path) is supported.
+
+![Add a Maven (Nexus) repository][1]
 
 Package definition
 ------------------
-![Define a package as material for a pipeline][2]
 Group Id and Artifact Id refer to the corresponding entries in [pom.xml](http://maven.apache.org/pom.html#Maven_Coordinates). Click check pacakge to make sure the plugin understands what you are looking for.
+
+![Define a package as material for a pipeline][2]
 
 Package Metadata
 ----------------
