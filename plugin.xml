@@ -6,7 +6,7 @@
     <target-go-version>13.3</target-go-version>
     <description>Polls a Nexus repository</description>
     <vendor>
-        <name>ThoughtWorks Go Team</name>
+        <name>Sriram Narayan</name>
         <url>https://github.com/ThoughtWorksInc/go-maven-poller/blob/master/README.md</url>
     </vendor>
 </about>
