@@ -2,7 +2,7 @@ package com.tw.go.plugin.maven.nexus;
 
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.tw.go.plugin.maven.client.RepoResponse;
-import com.tw.go.plugin.maven.client.Version;
+import maven.MavenVersion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +26,15 @@ public class NexusResponseHandler {
         return content != null;
     }
 
-    public List<Version> getAllVersions() {
+    public List<MavenVersion> getAllVersions() {
         if(content == null && !canHandle()){
             LOGGER.warn("NexusResponseHandler getAllVersions invalidContent");
             throw new RuntimeException("getAllVersions: Invalid response");
         }
-        List<Version> versions = new ArrayList<Version>();
+        List<MavenVersion> versions = new ArrayList<MavenVersion>();
         for (ContentItem ci : content.getContentItems()) {
             if (!ci.getText().matches(FILES_TO_IGNORE)) {
-                Version version = ci.toVersion();
+                MavenVersion version = ci.toVersion();
                 versions.add(version);
             }
         }

@@ -1,6 +1,7 @@
 package com.tw.go.plugin.maven.client;
 
 import com.tw.go.plugin.maven.nexus.ContentItem;
+import maven.MavenVersion;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,7 +18,7 @@ public class ContentItemTest {
         item.setResourceURI("http://nexus-server:8081/nexus/content/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-15/");
         item.setRelativePath("/repositories/releases/com/thoughtworks/studios/go/book_inventory/1.0.0-15/");
         item.setText("1.0.0-15");
-        Version v = item.toVersion();
+        MavenVersion v = item.toVersion();
         assertThat(v.getVersion(), is("1.0.0"));
         assertThat(v.getQualifier(), is("15"));
         assertThat(ContentItem.MAVEN_DATE_FORMAT.format(v.getLastModified()), is(lastModified));

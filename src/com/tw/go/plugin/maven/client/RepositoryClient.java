@@ -3,6 +3,7 @@ package com.tw.go.plugin.maven.client;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.tw.go.plugin.maven.config.LookupParams;
 import com.tw.go.plugin.maven.nexus.NexusResponseHandler;
+import maven.MavenVersion;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +18,11 @@ public class RepositoryClient {
         this.lookupParams = lookupParams;
     }
 
-    public Version getLatest() {
+    public MavenVersion getLatest() {
         RepoResponse repoResponse = repositoryConnector.makeAllVersionsRequest(lookupParams);
         LOGGER.debug(repoResponse.responseBody);
-        List<Version> allVersions = getAllVersions(repoResponse);
-        Version latest = getLatest(allVersions);
+        List<MavenVersion> allVersions = getAllVersions(repoResponse);
+        MavenVersion latest = getLatest(allVersions);
         if(latest != null){
             latest.setArtifactId(lookupParams.getArtifactId());
             latest.setGroupId(lookupParams.getGroupId());
@@ -33,7 +34,7 @@ public class RepositoryClient {
         return latest;
     }
 
-    private void setLocationAndTrackBack(Version version) {
+    private void setLocationAndTrackBack(MavenVersion version) {
         try{
             Files files = getFiles(version);
             version.setLocation(files.getArtifactLocation());
@@ -49,16 +50,16 @@ public class RepositoryClient {
         }
     }
 
-    Version getLatest(List<Version> allVersions) {
+    MavenVersion getLatest(List<MavenVersion> allVersions) {
         if(allVersions == null || allVersions.isEmpty()) return null;
-        Version latest = maxSubjectToUpperBound(allVersions);
+        MavenVersion latest = maxSubjectToUpperBound(allVersions);
         if(latest == null) {
             LOGGER.info("maxSubjectToUpperBound is null");
             return null;
         }
         if (lookupParams.isLastVersionKnown()) {
             LOGGER.info("lastKnownVersion is "+ lookupParams.getLastKnownVersion());
-            Version lastKnownVersion = new Version(lookupParams.getLastKnownVersion());
+            MavenVersion lastKnownVersion = new MavenVersion(lookupParams.getLastKnownVersion());
             if (noNewerVersion(latest, lastKnownVersion)) {
                 LOGGER.info("no newer version");
                 return null;
@@ -72,8 +73,8 @@ public class RepositoryClient {
         }
     }
 
-    private Version maxSubjectToUpperBound(List<Version> allVersions) {
-        Version absoluteMax = Collections.max(allVersions);
+    private MavenVersion maxSubjectToUpperBound(List<MavenVersion> allVersions) {
+        MavenVersion absoluteMax = Collections.max(allVersions);
         if(!lookupParams.upperBoundGiven()) return absoluteMax;
         Collections.sort(allVersions);
         for(int i = 0; i < allVersions.size(); i++){
@@ -88,12 +89,12 @@ public class RepositoryClient {
         return null;
     }
 
-    private boolean noNewerVersion(Version latest, Version lastKnownVersion) {
+    private boolean noNewerVersion(MavenVersion latest, MavenVersion lastKnownVersion) {
         return latest.notNewerThan(lastKnownVersion);
     }
 
-    private List<Version> getAllVersions(RepoResponse repoResponse) {
-        List<Version> versions;
+    private List<MavenVersion> getAllVersions(RepoResponse repoResponse) {
+        List<MavenVersion> versions;
         NexusResponseHandler nexusReponseHandler = new NexusResponseHandler(repoResponse);
         if (nexusReponseHandler.canHandle()) {
             versions = nexusReponseHandler.getAllVersions();
@@ -105,7 +106,7 @@ public class RepositoryClient {
         return versions;
     }
 
-    Files getFiles(Version version) {
+    Files getFiles(MavenVersion version) {
         RepoResponse repoResponse = repositoryConnector.makeFilesRequest(lookupParams, version.getV_Q());
         LOGGER.debug(repoResponse.responseBody);
         NexusResponseHandler nexusReponseHandler = new NexusResponseHandler(repoResponse);

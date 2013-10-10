@@ -150,16 +150,6 @@ public class VersionTest {
         checkVersion(v, "1", "2", "3", "4", "yyy.xxx.qualifier");
     }
     @Test
-    public void testVersionLabel() {
-        String label = "1.2.3.4.yyy.xxx.qualifier";
-        Version v = new Version(label);
-        v.setArtifactId("a");
-        v.setGroupId("g");
-        assertThat(v.getV_Q(), is(label));
-        assertThat(v.getRevisionLabel(), is("g:a."+label));
-    }
-
-    @Test
     public void testCompareHotfix() {
         Version v1 = new Version("1.2.3.0.yyy.xxx.qualifier");
         Version v2 = new Version("1.2.3.4.yyy.xxx.qualifier");

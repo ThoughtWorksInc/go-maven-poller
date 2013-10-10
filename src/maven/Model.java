@@ -1,23 +1,20 @@
 
 package maven;
 
-import java.io.File;
-import java.io.IOException;
+import org.w3c.dom.Element;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLFilter;
+import org.xml.sax.helpers.XMLFilterImpl;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.UnmarshallerHandler;
+import javax.xml.bind.annotation.*;
+import javax.xml.parsers.SAXParserFactory;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.w3c.dom.Element;
-import org.xml.sax.*;
-import org.xml.sax.helpers.XMLFilterImpl;
 
 
 /**

@@ -7,7 +7,6 @@ import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
 import com.tw.go.plugin.maven.config.MavenPackageConfig;
 import com.tw.go.plugin.maven.config.MavenRepoConfig;
-import com.tw.go.plugin.util.InvalidRepoUrl;
 import com.tw.go.plugin.util.RepoUrl;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,6 @@
 package com.tw.go.plugin.maven.nexus;
 
-import com.tw.go.plugin.maven.client.Version;
+import maven.MavenVersion;
 
 import javax.xml.bind.annotation.XmlElement;
 import java.text.ParseException;
@@ -94,8 +94,8 @@ public class ContentItem {
 		return sb.toString();
 	}
 
-    public Version toVersion() {
-        Version result = new Version(text);
+    public MavenVersion toVersion() {
+        MavenVersion result = new MavenVersion(text);
         try {
             result.setLastModified(MAVEN_DATE_FORMAT.parse(lastModified));
         } catch (ParseException e) {

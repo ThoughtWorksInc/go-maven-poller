@@ -1,5 +1,7 @@
 package com.tw.go.plugin.maven.client;
 
+import maven.MavenVersion;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -12,12 +14,12 @@ public class HtmlResponseHandler {
         this.repoResponse = repoResponse;
     }
 
-    public List<Version> getAllVersions() {
+    public List<MavenVersion> getAllVersions() {
         List<String> versionStrings = new ArrayList<String>();
-        List<Version> result = new ArrayList<Version>();
+        List<MavenVersion> result = new ArrayList<MavenVersion>();
         parseHtml(versionStrings);
         for (String versionString : versionStrings) {
-            Version version = new Version(versionString);
+            MavenVersion version = new MavenVersion(versionString);
             if(!version.isZeroVersion())
                 result.add(version);
         }

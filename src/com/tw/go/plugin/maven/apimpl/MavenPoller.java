@@ -8,13 +8,13 @@ import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfi
 import com.thoughtworks.go.plugin.api.response.Result;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
-import com.tw.go.plugin.maven.config.LookupParams;
 import com.tw.go.plugin.maven.client.RepositoryClient;
 import com.tw.go.plugin.maven.client.RepositoryConnector;
-import com.tw.go.plugin.maven.client.Version;
+import com.tw.go.plugin.maven.config.LookupParams;
 import com.tw.go.plugin.maven.config.MavenPackageConfig;
 import com.tw.go.plugin.maven.config.MavenRepoConfig;
 import com.tw.go.plugin.util.RepoUrl;
+import maven.MavenVersion;
 
 import static com.tw.go.plugin.maven.config.MavenPackageConfig.ARTIFACT_ID;
 import static com.tw.go.plugin.maven.config.MavenPackageConfig.GROUP_ID;
@@ -99,7 +99,7 @@ public class MavenPoller implements PackageMaterialPoller {
     }
 
     PackageRevision poll(LookupParams params) {
-        Version latest = new RepositoryClient(params).getLatest();
+        MavenVersion latest = new RepositoryClient(params).getLatest();
         if (latest == null) return null;
         return latest.toPackageRevision();
     }

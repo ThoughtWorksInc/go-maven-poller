@@ -1,12 +1,9 @@
 package com.tw.go.plugin.maven.client;
 
 import com.eekboom.utils.Strings;
-import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision;
-import com.tw.go.plugin.maven.config.LookupParams;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -48,18 +45,12 @@ public class Version implements Serializable, Comparable<Version> {
     private static final int MINOR_IDX = 1;
     private static final int BUGFIX_IDX = 2;
     private static final int HOTFIX_IDX = 3;
-    private String artifactId = null;
     private String original = null;
-    private String version = null;
-    private String qualifier = null;
+    protected String version = null;
+    protected String qualifier = null;
     private List<String> digitStrings = new ArrayList<String>();
     private List<Integer> digits = new ArrayList<Integer>();
-    private Date lastModified = null;
-    private String location = null;
-    private String groupId = null;
-    private char lastDelimiter;
-    private String trackBackUrl = null;
-    private String errorMessage;
+    protected char lastDelimiter;
 
     /**
      * Strip the qualifier, which is the first occurrence of a character which
@@ -288,39 +279,6 @@ public class Version implements Serializable, Comparable<Version> {
         return result;
     }
 
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public Date getLastModified() {
-        return lastModified;
-    }
-
-    public String getRevisionLabel() {
-        return String.format("%s:%s.%s%s%s", groupId, artifactId, version,lastDelimiter, qualifier);
-    }
-
-    public PackageRevision toPackageRevision() {
-        PackageRevision packageRevision = new PackageRevision(getRevisionLabel(), lastModified, null,null, trackBackUrl);
-        packageRevision.addData(LookupParams.PACKAGE_LOCATION, location);
-        packageRevision.addData(LookupParams.PACKAGE_VERSION, getV_Q());
-        if(errorMessage != null)
-            packageRevision.addData("ERRORMSG", errorMessage);
-        return packageRevision;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
     public String getV_Q() {
         if (getQualifier() != null)
             return getVersion() + lastDelimiter + getQualifier();
@@ -339,15 +297,8 @@ public class Version implements Serializable, Comparable<Version> {
         return this.compareTo(version) >= 0;
     }
 
-    public void setTrackBackUrl(String trackBackUrl) {
-        this.trackBackUrl = trackBackUrl;
-    }
-
     public boolean isZeroVersion(){
         return ZERO_VERSION.equals(this.version);
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
 }

@@ -3,6 +3,7 @@ package com.tw.go.plugin.maven.client;
 import com.tw.go.plugin.maven.config.LookupParams;
 import com.tw.go.plugin.maven.nexus.NexusResponseHandler;
 import com.tw.go.plugin.util.HttpRepoURL;
+import maven.MavenVersion;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -35,11 +36,11 @@ public class NexusResponseHandlerTest {
                 "jboss", "jboss-aop", "jar", null, null, null);
         String responseBody = FileUtils.readFileToString(new File("test/fast/jboss-dir.xml"));
         NexusResponseHandler nexusResponseHandler = new NexusResponseHandler(new RepoResponse(responseBody, RepoResponse.APPLICATION_XML));
-        List<Version> list = nexusResponseHandler.getAllVersions();
+        List<MavenVersion> list = nexusResponseHandler.getAllVersions();
         RepositoryClient repositoryClient = new RepositoryClient(lookupParams);
         RepositoryConnector repoConnector = mock(RepositoryConnector.class);
         repositoryClient.setRepositoryConnector(repoConnector);
-        Version result = repositoryClient.getLatest(list);
+        MavenVersion result = repositoryClient.getLatest(list);
         String filesUrl = httpRepoURL.getUrlWithBasicAuth() + "jboss/jboss-aop/2.0.0.alpha2/";
         when(repoConnector.getFilesUrlWithBasicAuth(lookupParams, result.getV_Q())).thenReturn(filesUrl);
         String filesResponse = FileUtils.readFileToString(new File("test/fast/jboss-files.xml"));

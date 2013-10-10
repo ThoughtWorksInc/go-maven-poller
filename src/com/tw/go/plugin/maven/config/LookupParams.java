@@ -3,7 +3,6 @@ package com.tw.go.plugin.maven.config;
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision;
 import com.tw.go.plugin.maven.client.Version;
 import com.tw.go.plugin.util.HttpRepoURL;
-import com.tw.go.plugin.util.RepoUrl;
 
 
 public class LookupParams {

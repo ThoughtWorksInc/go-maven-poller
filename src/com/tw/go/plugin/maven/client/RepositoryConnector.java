@@ -18,8 +18,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
-
 public class RepositoryConnector {
     private static final Logger LOGGER = Logger.getLoggerFor(RepositoryConnector.class);
 
