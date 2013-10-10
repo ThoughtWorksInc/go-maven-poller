@@ -1,7 +1,7 @@
 package maven;
 
 import com.thoughtworks.go.plugin.api.material.packagerepository.PackageRevision;
-import com.tw.go.plugin.maven.client.Version;
+import maven.Version;
 import com.tw.go.plugin.maven.config.LookupParams;
 
 import java.util.Date;

@@ -7,7 +7,7 @@ import com.thoughtworks.go.plugin.api.material.packagerepository.Property;
 import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfiguration;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
-import com.tw.go.plugin.maven.client.Version;
+import maven.Version;
 import com.tw.go.plugin.util.StringUtil;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;

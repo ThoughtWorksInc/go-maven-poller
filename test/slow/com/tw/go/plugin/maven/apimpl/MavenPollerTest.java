@@ -20,7 +20,6 @@ public class MavenPollerTest {
 //todo: add mssg/warning as env var if location not found
 //todo: create my pkg rev class
 //todo: better use of httpclient
-//todo: separate out MavenVersion from Version
 //todo: move Version and Strings to utils
 //todo: try to deseralize just enough pom
 /*

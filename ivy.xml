@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-    <info organisation="com.thoughtworks.go" module="plugin-util"/>
+    <info organisation="com.thoughtworks.go" module="go-maven-poller"/>
     <dependencies>
         <dependency org="org.apache.commons" name="commons-lang3" rev="3.1"/>
         <dependency org="commons-logging" name="commons-logging" rev="1.1.3"/>
