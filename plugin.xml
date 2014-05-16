@@ -2,8 +2,8 @@
 <go-plugin id="maven" version="1">
 <about>
     <name>Maven Nexus plugin</name>
-    <version>0.2.0</version>
-    <target-go-version>13.3</target-go-version>
+    <version>0.3.0</version>
+    <target-go-version>14.1</target-go-version>
     <description>Polls a Nexus repository</description>
     <vendor>
         <name>Sriram Narayan</name>
