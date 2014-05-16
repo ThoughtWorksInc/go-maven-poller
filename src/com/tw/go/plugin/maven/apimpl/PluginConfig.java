@@ -1,7 +1,12 @@
 package com.tw.go.plugin.maven.apimpl;
 
+import com.thoughtworks.go.plugin.api.config.Configuration;
+import com.thoughtworks.go.plugin.api.config.Property;
 import com.thoughtworks.go.plugin.api.logging.Logger;
-import com.thoughtworks.go.plugin.api.material.packagerepository.*;
+import com.thoughtworks.go.plugin.api.material.packagerepository.PackageConfiguration;
+import com.thoughtworks.go.plugin.api.material.packagerepository.PackageMaterialConfiguration;
+import com.thoughtworks.go.plugin.api.material.packagerepository.PackageMaterialProperty;
+import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfiguration;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationError;
 import com.thoughtworks.go.plugin.api.response.validation.ValidationResult;
 import com.tw.go.plugin.maven.config.MavenPackageConfig;
@@ -11,35 +16,35 @@ import com.tw.go.plugin.util.RepoUrl;
 
 import java.util.Arrays;
 
-import static com.thoughtworks.go.plugin.api.material.packagerepository.Property.*;
+import static com.thoughtworks.go.plugin.api.config.Property.*;
 import static com.tw.go.plugin.maven.config.MavenPackageConfig.*;
 
 public class PluginConfig implements PackageMaterialConfiguration {
 
     private static Logger LOGGER = Logger.getLoggerFor(PluginConfig.class);
     public static final Property REPO_CONFIG_REPO_URL =
-            new Property(RepoUrl.REPO_URL).with(DISPLAY_NAME, "Maven Repo base URL").with(DISPLAY_ORDER, 0);
+            new PackageMaterialProperty(RepoUrl.REPO_URL).with(DISPLAY_NAME, "Maven Repo base URL").with(DISPLAY_ORDER, 0);
 
     public static final Property REPO_CONFIG_USERNAME =
-            new Property(RepoUrl.USERNAME).with(REQUIRED, false).with(DISPLAY_NAME, "UserName").with(DISPLAY_ORDER, 1).with(PART_OF_IDENTITY, false);
+            new PackageMaterialProperty(RepoUrl.USERNAME).with(REQUIRED, false).with(DISPLAY_NAME, "UserName").with(DISPLAY_ORDER, 1).with(PART_OF_IDENTITY, false);
 
     public static final Property REPO_CONFIG_PASSWORD =
-            new Property(RepoUrl.PASSWORD).with(REQUIRED, false).with(SECURE, true).with(DISPLAY_NAME, "Password").with(DISPLAY_ORDER, 2).with(PART_OF_IDENTITY, false);
+            new PackageMaterialProperty(RepoUrl.PASSWORD).with(REQUIRED, false).with(SECURE, true).with(DISPLAY_NAME, "Password").with(DISPLAY_ORDER, 2).with(PART_OF_IDENTITY, false);
 
     public static final Property PKG_CONFIG_GROUP_ID =
-            new Property(GROUP_ID).with(DISPLAY_NAME, "Group Id").with(DISPLAY_ORDER, 0);
+            new PackageMaterialProperty(GROUP_ID).with(DISPLAY_NAME, "Group Id").with(DISPLAY_ORDER, 0);
 
     public static final Property PKG_CONFIG_ARTIFACT_ID =
-            new Property(ARTIFACT_ID).with(DISPLAY_NAME, "Artifact Id").with(DISPLAY_ORDER, 1);
+            new PackageMaterialProperty(ARTIFACT_ID).with(DISPLAY_NAME, "Artifact Id").with(DISPLAY_ORDER, 1);
 
     public static final Property PKG_CONFIG_PACKAGING =
-            new Property(PACKAGING).with(DISPLAY_NAME, "Packaging (jar,war,ear...)").with(DISPLAY_ORDER, 2).with(PART_OF_IDENTITY, true);
+            new PackageMaterialProperty(PACKAGING).with(DISPLAY_NAME, "Packaging (jar,war,ear...)").with(DISPLAY_ORDER, 2).with(PART_OF_IDENTITY, true);
 
     public static final Property PKG_CONFIG_POLL_VERSION_FROM =
-            new Property(POLL_VERSION_FROM).with(REQUIRED, false).with(DISPLAY_NAME, "Version to poll >=").with(DISPLAY_ORDER, 3).with(PART_OF_IDENTITY, true);
+            new PackageMaterialProperty(POLL_VERSION_FROM).with(REQUIRED, false).with(DISPLAY_NAME, "Version to poll >=").with(DISPLAY_ORDER, 3).with(PART_OF_IDENTITY, true);
 
     public static final Property PKG_CONFIG_POLL_VERSION_TO =
-            new Property(POLL_VERSION_TO).with(REQUIRED, false).with(DISPLAY_NAME, "Version to poll <").with(DISPLAY_ORDER, 4).with(PART_OF_IDENTITY, true);
+            new PackageMaterialProperty(POLL_VERSION_TO).with(REQUIRED, false).with(DISPLAY_NAME, "Version to poll <").with(DISPLAY_ORDER, 4).with(PART_OF_IDENTITY, true);
 
 
     public RepositoryConfiguration getRepositoryConfiguration() {
@@ -77,7 +82,7 @@ public class PluginConfig implements PackageMaterialConfiguration {
             LOGGER.error(e.getMessage());
             validationResult.addError(new ValidationError(RepoUrl.REPO_URL, e.getMessage()));
         }
-        if(repoUrl != null)
+        if (repoUrl != null)
             repoUrl.validate(validationResult);
         detectInvalidKeys(repoConfig, validationResult, MavenRepoConfig.getValidKeys());
         return validationResult;

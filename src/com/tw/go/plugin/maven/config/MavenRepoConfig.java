@@ -1,6 +1,6 @@
 package com.tw.go.plugin.maven.config;
 
-import com.thoughtworks.go.plugin.api.material.packagerepository.Property;
+import com.thoughtworks.go.plugin.api.config.Property;
 import com.thoughtworks.go.plugin.api.material.packagerepository.RepositoryConfiguration;
 import com.tw.go.plugin.util.HttpRepoURL;
 import com.tw.go.plugin.util.RepoUrl;
